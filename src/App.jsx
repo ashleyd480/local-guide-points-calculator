@@ -1,17 +1,23 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { useState } from 'react'
+import { Route, Routes } from 'react-router-dom'
 import InputPage from './containers/Input/InputPage'
+import Home from './containers/Home/Home'
+import { UserDataContext } from './contexts/UserDataContext'
 
-function App() {
+const App = () => {
+
+  const [userData, setUserData] = useState({});
 
   return (
-    <>
-      <h1>My React App</h1>
-      <InputPage />
-    </>
-  )
-}
+    <UserDataContext.Provider value={{ userData, setUserData }}>
+      <Routes>
+        <Route exact path="/" element={<Home />} />
+        <Route path="/inputform" element={<InputPage />} />
+       
+      </Routes>
+    </UserDataContext.Provider>
+  );
+};
 
-export default App
+  export default App;

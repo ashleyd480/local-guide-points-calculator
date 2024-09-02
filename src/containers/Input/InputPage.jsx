@@ -11,7 +11,8 @@ const InputPage = () => {
         profileLink: "",
         desiredPoints: ""
     })
-
+    
+    const [userMeta, setUserMeta] = useState({});
     const [userPoints, setUserPoints] = useState("");
     const [error, setError] = useState("");
     
@@ -24,6 +25,12 @@ const InputPage = () => {
        
             // Initialize with the provided link
             await contributionMetadata.init("/api" + inputData.profileLink);
+            const metadata = contributionMetadata.getVideos();
+               // Validate the structure of metadata
+  
+            setUserMeta(metadata);
+       
+            console.log(metadata);
 
             // Fetch and set point
             const fetchedPoints = contributionMetadata.getPoints();
