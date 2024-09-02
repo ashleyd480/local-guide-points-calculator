@@ -151,7 +151,7 @@ class ContributionMetadata {
    * @return {number} - The number of places added.
    */
   getPlacesAdded() {
-    let pattern = /(\d+(?:,\d+)*) places added/g;
+    let pattern = /Places\s+added.*?(\d+(?:,\d+)?)/;
     const placesAddedString = this.getMatch(pattern);
     return ContributionMetadata.parseNumber(placesAddedString);
   }

@@ -8,7 +8,7 @@ const LinkInput = ({ profileLink, setProfileLink, handleFetchMetadata }) => {
         setProfileLink(event.target.value)
     }; // handle when user link updates 
 
-    const [linkError, setLinkErrors] = useState("");
+    const [linkError, setLinkError] = useState("");
     const [valid, setValid] = useState(true);
 
     
@@ -17,10 +17,10 @@ const LinkInput = ({ profileLink, setProfileLink, handleFetchMetadata }) => {
     const validateInputs = () => {
         // initialize our values (these values will be updated but in use state they are const)
         let isValid = true;
-        let linkError = ""
+        let errorMessage = ""
 
         if (!profileLink) {
-            linkError = "Profile link is required.";
+            errorMessage = "Profile link is required.";
             isValid = false;
         }
         else {
@@ -30,13 +30,14 @@ const LinkInput = ({ profileLink, setProfileLink, handleFetchMetadata }) => {
             // test the profile link against the regex
             // regex.test is a boolean method to see if string matches input
             if (!regex.test(profileLink)) {
-                linkError = "Profile link is not valid. It should be in the format: https://www.google.com/maps/contrib/0123456789";
+                errorMessage = "Profile link is not valid. It should be in the format: https://www.google.com/maps/contrib/0123456789";
                 isValid = false;
             }
-            setLinkErrors(linkError);
-            setValid(isValid);
-            return isValid;
+          
         };
+        setLinkError(errorMessage); // to move this outside of the if statement
+        setValid(isValid);
+        return isValid;
         
     }
 
@@ -63,8 +64,9 @@ const LinkInput = ({ profileLink, setProfileLink, handleFetchMetadata }) => {
                     variant="outlined"
                 />
             </FormControl>
-            
+            {linkError && <h4 className="errorContainer">{linkError}</h4>}
             <Button variant="contained" onClick={onClick}>Submit</Button>
+          
         </div>
     );
 };
