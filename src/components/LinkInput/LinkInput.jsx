@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 import { TextField, Button, FormControl } from '@mui/material';
 
-const LinkInput = ({  profileLink, setProfileLink, handleFetchMetadata }) => {
+const LinkInput = ({ profileLink, setProfileLink, handleFetchMetadata }) => {
     const handleChange = (event) => {
         setProfileLink(event.target.value)
     }; // handle when user link updates 
@@ -15,11 +15,12 @@ const LinkInput = ({  profileLink, setProfileLink, handleFetchMetadata }) => {
 
     // Validate input fields and set errors
     const validateInputs = () => {
-        // initialize our valus
+        // initialize our values (these values will be updated but in use state they are const)
         let isValid = true;
+        let linkError = ""
 
         if (!profileLink) {
-            errors.profileLink = "Profile link is required.";
+            linkError = "Profile link is required.";
             isValid = false;
         }
         else {
@@ -29,7 +30,7 @@ const LinkInput = ({  profileLink, setProfileLink, handleFetchMetadata }) => {
             // test the profile link against the regex
             // regex.test is a boolean method to see if string matches input
             if (!regex.test(profileLink)) {
-                errors.profileLink = "Profile link is not valid. It should be in the format: https://www.google.com/maps/contrib/0123456789";
+                linkError = "Profile link is not valid. It should be in the format: https://www.google.com/maps/contrib/0123456789";
                 isValid = false;
             }
             setLinkErrors(linkError);
@@ -43,7 +44,7 @@ const LinkInput = ({  profileLink, setProfileLink, handleFetchMetadata }) => {
     const onClick = (event) => {
         event.preventDefault();
         if (validateInputs()) {
-            onSubmit(); // prevent submission until user fixes their error 
+           handleFetchMetadata(); // prevent submission until user fixes their error 
         }
     };
 
@@ -63,7 +64,7 @@ const LinkInput = ({  profileLink, setProfileLink, handleFetchMetadata }) => {
                 />
             </FormControl>
             
-            <Button variant="contained" onClick={handleFetchMetadata}>Submit</Button>
+            <Button variant="contained" onClick={onClick}>Submit</Button>
         </div>
     );
 };

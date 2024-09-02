@@ -1,8 +1,10 @@
 import { useState, useEffect, useContext } from "react";
 import { UserDataContext } from "../../contexts/UserDataContext";
-import ContributionMetadata from "google-local-guides-api"; 
+import { parseToInt } from "../../utils/parseDataUtils";
+
+// import ContributionMetadata from "google-local-guides-api"; 
+import ContributionMetadata from "../../utils/contributionsMetadata";
 import LinkInput from "../../components/LinkInput/LinkInput";
-import { Input, TextField, Button, FormHelperText, FormControl } from '@mui/material';
 
 
 
@@ -19,14 +21,24 @@ const Home = () => {
         try {
             // initialize with the provided link
             await contributionMetadata.init("/api" + profileLink);
-            const points = contributionMetadata.getQuestions(); // Fetch the points
-            // Validate and set the metadata
+            // update userData
             setUserData(prevState => ({
                 ...prevState,
-                points: points // Update only the points field
+                points: contributionMetadata.getPoints(),
+                level: contributionMetadata.getLevel(),
+                reviews: contributionMetadata.getReviews(),
+                // ratings: contributionMetadata.getRatings(),
+                photos: contributionMetadata.getPhotos(), 
+                videos: contributionMetadata.getVideos(),
+                captions: contributionMetadata.getCaptions(), 
+                answers: contributionMetadata.getAnswers(), 
+                edits: contributionMetadata.getEdits(),
+                reportedIncorrect: contributionMetadata.getReportedIncorrect(),
+                placesAdded: contributionMetadata.getPlacesAdded(),
+                roadsAdded: contributionMetadata.getRoadsAdded(),
+                factsChecked: contributionMetadata.getFactsChecked(), 
+                qa: contributionMetadata.getQA()
             }));
-          
-            console.log(userData.points);
         } catch (error) {
             
             setError(`An error occurred: ${error.message}`); // Display error message
@@ -42,10 +54,24 @@ const Home = () => {
             <p> Here are step to get that link if you can't find it. Example look like this xyz- and you can open this link [link here] in a new tab.</p>
         
             <LinkInput profileLink={profileLink} setProfileLink={setProfileLink} handleFetchMetadata={handleFetchMetadata}  />
-            {userData && (
-      
-                <h2>{userData.points}</h2>)}
-              {error && <h4 className="errorContainer">{error}</h4>}
+            {error ? <h4 className="errorContainer">{error}</h4> :  (
+                <>
+                         <h2>Points: {userData.points}</h2>
+        <h2>Level: {userData.level}</h2>
+        <h2>Reviews: {userData.reviews}</h2>
+        {/* <h2>Ratings: {userData.ratings}</h2> */}
+        <h2>Photos: {userData.photos}</h2>
+        <h2>Videos: {userData.videos}</h2>
+        <h2>Captions: {userData.captions}</h2>
+        <h2>Answers: {userData.answers}</h2>
+        <h2>Edits: {userData.edits}</h2>
+        <h2>Facts Checked: {userData.factsChecked}</h2>
+        <h2>Places Added: {userData.placesAdded}</h2>
+        <h2>Roads Added: {userData.roadsAdded}</h2>
+        <h2>Q&A: {userData.qa}</h2>
+        <h2>Reported Incorrect: {userData.reportedIncorrect}</h2>
+                </>)}
+              {/* {error && } */}
         </div>
 
 
