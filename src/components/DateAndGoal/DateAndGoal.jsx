@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 
 import { TextField, Button, FormControl } from "@mui/material";
+import { calculateNumberPerContribution } from "../../utils/smartCalculateFormulas/smartDivide";
+import { calculateDifference } from "../../utils/calculationUtils";
 
-const DateAndGoal = ({userGoal, setUserGoal, userData}) => {
+
+const DateAndGoal = ({userGoal, setUserGoal, userData, percentages}) => {
   const [goalError, setGoalError] = useState("");
 const [valid, setValid] = useState(true);
-    
+  const [difference, setDifference] = useState(0);
+  const [numberPerContribution, setNumberPerContribution] = useState({});
+
     const handleChange = (event) => setUserGoal(event.target.value);
 
 
@@ -37,14 +42,20 @@ const [valid, setValid] = useState(true);
         return isValid;
     }
 
-    const difference = userGoal - userData.points;
+ 
 
 
     // prevent submission until user fixes their error
     const onClick = (event) => {
         event.preventDefault();
-        if (validateInputs()) {
-            console.log ("the difference is " + difference )
+      if (validateInputs()) {
+        const difference = calculateDifference(userData.points, userGoal);
+        setDifference(difference);
+  
+          const numberPerContribution = calculateNumberPerContribution(difference, percentages);
+          console.log ("the difference is " + difference )
+          console.log(numberPerContribution);
+          setNumberPerContribution(numberPerContribution)
         }
     }
 

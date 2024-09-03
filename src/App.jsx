@@ -1,7 +1,6 @@
 import './App.css'
 import { useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
-import InputPage from './containers/Input/InputPage'
 import Home from './containers/Home/Home'
 import { UserDataContext } from './contexts/UserDataContext'
 import CalculatePage from './containers/Calculate/CalculatePage'

@@ -1,3 +1,4 @@
+// to see current user % to get behavior trend
 // filter the list
 
 const filterObject = (obj, keysToExclude) => {
