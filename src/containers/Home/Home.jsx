@@ -74,20 +74,6 @@ const Home = () => {
         <h4 className="errorContainer">{error}</h4>
       ) : (
         <>
-          {/* <h2>Points: {userData.points}</h2>
-        <h2>Level: {userData.level}</h2>
-        <h2>Reviews: {userData.reviews}</h2>
-        <h2>Ratings: {userData.ratings}</h2>
-        <h2>Photos: {userData.photos}</h2>
-        <h2>Videos: {userData.videos}</h2>
-        <h2>Captions: {userData.captions}</h2>
-        <h2>Answers: {userData.answers}</h2>
-        <h2>Edits: {userData.edits}</h2>
-        <h2>Facts Checked: {userData.factsChecked}</h2>
-        <h2>Places Added: {userData.placesAdded}</h2>
-        <h2>Roads Added: {userData.roadsAdded}</h2>
-        <h2>Q&A: {userData.qa}</h2>
-        <h2>Reported Incorrect: {userData.reportedIncorrect}</h2> */}
           <div>
             <ul>
               {Object.entries(userData).map(([key, value]) => (

@@ -13,7 +13,7 @@ const LinkInput = ({ profileLink, setProfileLink, handleFetchMetadata }) => {
     setProfileLink(event.target.value);
   }; 
 
-  // Validate input fields and set errors
+  // validate input fields and set errors
   const validateInputs = () => {
     // initialize our values (these values will be updated but in use state they are const)
     let isValid = true;
@@ -39,11 +39,11 @@ const LinkInput = ({ profileLink, setProfileLink, handleFetchMetadata }) => {
     return isValid;
   };
 
-  // Handle form submission
+ // prevent submission until user fixes their error
   const onClick = (event) => {
     event.preventDefault();
     if (validateInputs()) {
-      handleFetchMetadata(); // prevent submission until user fixes their error
+      handleFetchMetadata(); 
     }
   };
 
@@ -53,7 +53,6 @@ const LinkInput = ({ profileLink, setProfileLink, handleFetchMetadata }) => {
     <div>
       <FormControl fullWidth margin="normal">
         <TextField
-          id="profile-link-input"
           label="Profile Link"
           value={profileLink}
           onChange={handleChange}

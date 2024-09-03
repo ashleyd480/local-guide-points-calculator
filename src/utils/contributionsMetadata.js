@@ -1,5 +1,5 @@
 // credit goes to https://github.com/jinwook-k/google-local-guides-api/tree/master/src for their reference code!
-// i was able to build off his regex structure:
+// I was able to build off his regex structure and customized as follows:
 
 /**
  * removed the published lists as those no longer count

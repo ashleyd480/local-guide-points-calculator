@@ -9,6 +9,7 @@ import CalculatePage from './containers/Calculate/CalculatePage'
 const App = () => {
 
   const [userData, setUserData] = useState({});
+  //TODO remove the inputpage and inputForm.jsx 
 
   return (
     <UserDataContext.Provider value={{ userData, setUserData }}>
