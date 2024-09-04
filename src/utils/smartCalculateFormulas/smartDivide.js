@@ -1,5 +1,5 @@
 // how many contributions user should do per category based on different
-import { categoryPointsMap } from "../categoryPointsMap";
+import { categoryPointsMap } from "../dataUtils/categoryPointsMap";
 
 export const calculateNumberPerContribution = (difference, percentages) => {
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { TextField, Button, FormControl } from "@mui/material";
+import { TextField, Button, FormControl, Box, Slider } from "@mui/material";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -11,77 +11,52 @@ import {
   calculateDifference,
   calculateDaysInBeteen,
 } from "../../utils/calculationUtils";
+import { validateInputs } from "../../utils/validateUtils/validateInputs";
+import frequencyMarks from "../../utils/dataUtils/frequencyMarks";
 
 const DateAndGoal = ({ userData, percentages }) => {
-  const [goalError, setGoalError] = useState("");
   const [valid, setValid] = useState(true);
   const [difference, setDifference] = useState(0);
   const [numberPerContribution, setNumberPerContribution] = useState({});
-  // const [userGoal, setUserGoal] = useState(0);
-
-  const [inputFormData, setInputFormData] = useState({
-    userGoal: 0,
-    goalDate: dayjs().add(1, 'day') // default to tomorrow's date
+  const [userGoal, setUserGoal] = useState(0);
+  const [goalDate, setGoalDate] = useState(dayjs().add(1, "day")); // default to tomorrow's date
+  const [frequency, setFrequency] = useState(1);
+  const [formErrors, setformErrors] = useState({
+    userGoal: "",
+    goalDate: "",
+    frequency: "",
   });
-  // const [goalDate, setGoalDate] = React.useState(dayjs());
+
+  /* ---- ON CHANGE HANDLER ---- */
 
   const handleChange = (event) => {
-    const { name, value } = event.target; // destructure to access the .name and .value properties
-    setInputFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value, // update the value of that name key from input form
-    }));
+    setUserGoal(event.target.value);
   };
 
-// need to handle date change seperately b/c w/ MUI it doesn't use event object for change but rather returns a `new date value` *** #learning!
+  // need to handle date change seperately b/c w/ MUI it doesn't use event object for change but rather returns a `new date value` *** #learning!
   const handleDateChange = (newDate) => {
-    setInputFormData((prevFormData) => ({
-      ...prevFormData,
-      goalDate: newDate,
-    }));
+    setGoalDate(newDate);
   };
 
-  // keeping variables cleaner
-  const userGoal = inputFormData.userGoal;
-  const goalDate = inputFormData.goalDate;
+  // for  handle slider- since it doesn't use event object #learning
+  const handleSliderChange = (event, newValue) => {
+    setFrequency(newValue);
+  };
+
+  /* ---- VALIDATION ---- */
+
   // format goalDate as MM, dd, yyyy - otherwise rendering as unix
-  const formattedGoalDate = inputFormData.goalDate.format("MM, DD, YYYY");
+  const formattedGoalDate = goalDate.format("MM, DD, YYYY");
+  const daysInBetween = calculateDaysInBeteen(formattedGoalDate);
 
-  // validate input fields and set errors
-  const validateInputs = () => {
-    // initialize our values (these values will be updated but in use state they are const)
-    let isValid = true;
-    let errorMessage = "";
-    const userPoints = userData.points;
-    if (!userGoal) {
-      errorMessage = "Your goal of poitns is required.";
-      isValid = false;
-    } else if (userGoal <= userPoints || userGoal === 0) {
-      errorMessage =
-        "You must enter a goal that greater than current number of points";
-      isValid = false;
-    } else if (isNaN(userGoal)) {
-      // check for valid number
-      errorMessage = "Please enter a valid number for your goal.";
-      isValid = false;
-    } else if (/\,/.test(userGoal)) {
-      // user can't use commas, else will produce Naan
-      errorMessage = "Please do not use commas in your goal.";
-      isValid = false;
-    }
-    setGoalError(errorMessage);
-    setValid(isValid);
-
-    return isValid;
-  };
-
+  /* ----ON CLICK ---- */
   // prevent submission until user fixes their error for button
-  const onClick = (event) => {
+  const onSmartCalculate = (event) => {
     event.preventDefault();
-    if (validateInputs()) {
+    if (validateInputs(setValid,setformErrors, userGoal, userData )) {
       const difference = calculateDifference(
         userData.points,
-        inputFormData.userGoal
+        userGoal
       );
       setDifference(difference);
 
@@ -97,10 +72,11 @@ const DateAndGoal = ({ userData, percentages }) => {
 
   // manage click of manual calculate
 
-  const onClick2 = (event) => {
-    const daysInBetween = calculateDaysInBeteen(formattedGoalDate);
-    console.log("just testing date for now" + formattedGoalDate);
-    console.log("and days in between is " + daysInBetween);
+  const onManualCalculate = (event) => {
+    if (validateInputs(setValid, setformErrors, userGoal, userData)) {
+      console.log("just testing date for now" + formattedGoalDate);
+      console.log("and days in between is " + daysInBetween);
+    }
   };
 
   return (
@@ -110,7 +86,7 @@ const DateAndGoal = ({ userData, percentages }) => {
         <TextField
           label="Desired Goal"
           name="userGoal"
-          value={inputFormData.userGoal}
+          value={userGoal}
           onChange={handleChange}
           placeholder="Enter your desired points"
           helperText="Please enter the desired points, without comma"
@@ -121,9 +97,9 @@ const DateAndGoal = ({ userData, percentages }) => {
           <DatePicker
             label="Select Date"
             name="goalDate"
-            value={inputFormData.goalDate}
+            value={goalDate}
             onChange={handleDateChange}
-            minDate={dayjs().add(1, 'day')} // restrict to dates at least one day from today! lovin' this feature!
+            minDate={dayjs().add(1, "day")} // restrict to dates at least one day from today! lovin' this feature!
             renderInput={(
               params // customize how text field appears
             ) => (
@@ -136,13 +112,35 @@ const DateAndGoal = ({ userData, percentages }) => {
             )}
           />
         </LocalizationProvider>
+        <Box sx={{ width: 300 }}>
+          <p> Enter how often you want to do per week :)</p>
+          <Slider
+            aria-label="Frequency"
+            defaultValue={1}
+            value={frequency}
+            onChange={handleSliderChange}
+            step={1} // Adjusting the step to match the mark values
+            marks={frequencyMarks}
+            valueLabelDisplay="on" // force numbers to show on ticks
+            min={1}
+            max={7}
+          />
+        </Box>
       </FormControl>
-      {goalError && <h4 className="errorContainer">{goalError}</h4>}
-      <Button variant="contained" onClick={onClick}>
+
+      {Object.values(formErrors).length > 0 && (
+        <div>
+          {Object.values(formErrors).map((error, index) => (
+            <h4 className="errorContainer" key={index}> {error} </h4>
+          ))}
+        </div>
+      )}
+      
+      <Button variant="contained" onClick={onSmartCalculate}>
         Smart Calculate
       </Button>
 
-      <Button variant="contained" onClick={onClick2}>
+      <Button variant="contained" onClick={onManualCalculate}>
         Manual Calculate
       </Button>
     </div>

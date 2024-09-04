@@ -9,12 +9,11 @@ import ManualFilter from "../../components/ManualFilter/ManualFilter";
     
 const CalculatePage = () => {
     const { userData, setUserData } = useContext(UserDataContext);
-    // const userPoints = userData.points;
-    // console.log(userPoints);
     const [error, setError] = useState ("")
     const [percentages, setPercentages] = useState({});
    
 
+    // to render current user percentages 
     useEffect(() => {
         const { percentages, error } = calculateUserPercentage(userData);
         setPercentages(percentages)
