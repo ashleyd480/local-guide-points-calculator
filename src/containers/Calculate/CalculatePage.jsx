@@ -3,6 +3,7 @@ import { UserDataContext } from "../../contexts/UserDataContext";
 import DateAndGoal from "../../components/DateAndGoal/DateAndGoal";
 import SmartCalcResult from "../../components/SmartCalcResult/SmartCalcResult";
 import { calculateUserPercentage } from "../../utils/smartCalculateFormulas/smartPercntage";
+import ManualFilter from "../../components/ManualFilter/ManualFilter";
 
 
     
@@ -12,20 +13,12 @@ const CalculatePage = () => {
     // console.log(userPoints);
     const [error, setError] = useState ("")
     const [percentages, setPercentages] = useState({});
-    const [userGoal, setUserGoal] = useState(0);
    
 
     useEffect(() => {
         const { percentages, error } = calculateUserPercentage(userData);
-      ;  setPercentages(percentages)
+        setPercentages(percentages)
         setError(error);
-     
-        // const numberPerContribution = calculateNumberPerContribution(difference, percentages);
-        // console.log ("the difference is " + difference )
-        // console.log(numberPerContribution);
-        // setNumberPerContribution(numberPerContribution)
-
-        // insert function here and pass it as parameter to data and goal so it can be on click handler 
     }, [userData]);
 
     /** 
@@ -52,16 +45,16 @@ return (
             </ul>
         )}
       
-        < DateAndGoal userGoal={userGoal} setUserGoal={setUserGoal} userData={userData} percentages={percentages}/>
+        < DateAndGoal userData={userData} percentages={percentages}/>
 
         <h1> Select if you want to smart calculate or you want to manually select</h1>
         <p> (also let's have this show when date and goal populated) A short blurb about what each means </p>
         <p> note to self: based on what they select we determine which section to show </p>
         <h4> Let's smart calculate</h4>
 
-        < SmartCalcResult userGoal={userGoal}  />
+        < SmartCalcResult  />
 
-        
+        < ManualFilter />
     </>
 );
 }

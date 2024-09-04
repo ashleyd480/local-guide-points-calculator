@@ -14,7 +14,7 @@ const App = () => {
     <UserDataContext.Provider value={{ userData, setUserData }}>
       <Routes>
         <Route exact path="/" element={<Home />} />
-        {/* <Route path="/inputform" element={<InputPage />} /> */}
+
         <Route path="/calculatepage" element={<CalculatePage />} />
       </Routes>
     </UserDataContext.Provider>
