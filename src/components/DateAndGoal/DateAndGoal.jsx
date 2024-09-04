@@ -128,6 +128,8 @@ const DateAndGoal = ({ userData, percentages }) => {
         </Box>
       </FormControl>
 
+      {/* creating an array of values of errors object- if there are values(errors)- we conditionally render them */}
+
       {Object.values(formErrors).length > 0 && (
         <div>
           {Object.values(formErrors).map((error, index) => (

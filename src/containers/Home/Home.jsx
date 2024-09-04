@@ -1,20 +1,20 @@
 import { useState, useContext } from "react";
 import { UserDataContext } from "../../contexts/UserDataContext";
 import { useNavigate } from "react-router-dom";
-import {  Button } from "@mui/material";
+import { Button } from "@mui/material";
 
 // import ContributionMetadata from "google-local-guides-api";
 import ContributionMetadata from "../../utils/contributionsMetadata";
 import LinkInput from "../../components/LinkInput/LinkInput";
 
-
 const Home = () => {
   const { userData, setUserData } = useContext(UserDataContext);
   const [profileLink, setProfileLink] = useState("");
 
-    const [error, setError] = useState("");
-    
-// navigate hook
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true); // add loading state- this allow us to conditionally render next button
+
+  // navigate hook
   const navigate = useNavigate();
 
   const handleFetchMetadata = async () => {
@@ -43,9 +43,11 @@ const Home = () => {
       }));
     } catch (error) {
       setError(`An error occurred: ${error.message}`); // Display error message
+    } finally {
+      setLoading(false); // Set loading to false after fetching
     }
   };
-    
+
   const nextPage = () => {
     navigate("/calculatepage");
   };
@@ -82,11 +84,14 @@ const Home = () => {
                 </li>
               ))}
             </ul>
-                      </div>
-                      
-                      <Button variant="contained" onClick={nextPage}>
-        Next
-      </Button>
+          </div>
+
+          {/* conditionally render Next button when fetch metadata loads */}
+          {!loading && (
+            <Button variant="contained" onClick={nextPage}>
+              Next
+            </Button>
+          )}
         </>
       )}
     </div>
