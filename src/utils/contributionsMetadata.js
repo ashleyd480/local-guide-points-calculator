@@ -6,6 +6,8 @@
  * added some new contribution categories
  * renamed "questions" to "answers"
  * parse number helper function added
+ * add star after each of s- so regardless if singular (for 1) or plural - it will handle
+ * ^we found this out by console.log the responseBody and test it on regex101.com 
  * updated regex to handle commas as noticed first digit cutting off when comma present
  */
 
@@ -63,7 +65,7 @@ class ContributionMetadata {
    * @return {number} - The number of ratings.
    */
   getRatings() {
-    let pattern = /(\d+(?:,\d+)*) ratings/g;
+    let pattern = /(\d+(?:,\d+)*) ratings*/g;
     const ratingsString = this.getMatch(pattern);
     return ContributionMetadata.parseNumber(ratingsString);
   }
@@ -74,7 +76,7 @@ class ContributionMetadata {
    * @return {number} - The number of photos.
    */
   getPhotos() {
-    let pattern = /(\d+(?:,\d+)*) photos/g;
+    let pattern = /(\d+(?:,\d+)*) photos*/g;
     const photosString = this.getMatch(pattern);
     return ContributionMetadata.parseNumber(photosString);
   }
@@ -85,7 +87,7 @@ class ContributionMetadata {
    * @return {number} - The number of videos.
    */
   getVideos() {
-    let pattern = /(\d+(?:,\d+)*) videos/g;
+    let pattern = /(\d+(?:,\d+)*) videos*/g;
     const videosString = this.getMatch(pattern);
     return ContributionMetadata.parseNumber(videosString);
   }
@@ -96,7 +98,7 @@ class ContributionMetadata {
    * @return {number} - The number of captions.
    */
   getCaptions() {
-    let pattern = /(\d+(?:,\d+)*) captions/g;
+    let pattern = /(\d+(?:,\d+)*) captions*/g;
     const captionsString = this.getMatch(pattern);
     return ContributionMetadata.parseNumber(captionsString);
   }
@@ -107,7 +109,7 @@ class ContributionMetadata {
    * @return {number} - The number of answers.
    */
   getAnswers() {
-    let pattern = /(\d+(?:,\d+)*) answers/g;
+    let pattern = /(\d+(?:,\d+)*) answers*/g;
     const answersString = this.getMatch(pattern);
     return ContributionMetadata.parseNumber(answersString);
   }
@@ -118,7 +120,7 @@ class ContributionMetadata {
    * @return {number} - The number of edits.
    */
   getEdits() {
-    let pattern = /Edits.*?(\d+(?:,\d+)?)/;
+    let pattern = /(\d+(?:,\d+)*) edits*/g;
     const editsString = this.getMatch(pattern);
     return ContributionMetadata.parseNumber(editsString);
   }
@@ -140,7 +142,7 @@ class ContributionMetadata {
    * @return {number} - The number of facts checked.
    */
   getFactsChecked() {
-    let pattern = /Facts\s+checked.*?(\d+)/;
+    let pattern = /(\d+(?:,\d+)*) facts* checked/g;
     const factsCheckedString = this.getMatch(pattern);
     return ContributionMetadata.parseNumber(factsCheckedString);
   }
@@ -151,7 +153,7 @@ class ContributionMetadata {
    * @return {number} - The number of places added.
    */
   getPlacesAdded() {
-    let pattern = /Places\s+added.*?(\d+(?:,\d+)?)/;
+    let pattern = /(\d+(?:,\d+)*) places* added*/g;
     const placesAddedString = this.getMatch(pattern);
     return ContributionMetadata.parseNumber(placesAddedString);
   }
@@ -162,7 +164,7 @@ class ContributionMetadata {
    * @return {number} - The number of roads added.
    */
   getRoadsAdded() {
-    let pattern = /(\d+(?:,\d+)*) roads added/g;
+    let pattern = /(\d+(?:,\d+)*) roads* added/g;
     const roadsAddedString = this.getMatch(pattern);
     return ContributionMetadata.parseNumber(roadsAddedString);
   }
@@ -212,6 +214,8 @@ class ContributionMetadata {
    */
   getMatch(pattern) {
     let matches = pattern.exec(this.responseBody);
+    console.log(this.responseBody) // referencing variable in the class
+    console.log(matches);
     return matches.length > 0 ? matches[1] : "";
   }
 

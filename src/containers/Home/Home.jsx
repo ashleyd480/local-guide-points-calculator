@@ -54,7 +54,7 @@ const Home = () => {
 
   return (
     <div>
-      <p> Here are instructions to use:</p>
+      <p> Here are instructions to use [maybe lets put this in another component for cleaner code]:</p>
       <p>
         {" "}
         Note- this will only work for public profiles - here are step to toggle
