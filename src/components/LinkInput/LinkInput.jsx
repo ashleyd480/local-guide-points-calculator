@@ -15,7 +15,8 @@ const LinkInput = ({ profileLink, setProfileLink, handleFetchMetadata }) => {
  // prevent submission until user fixes their error
   const onClick = (event) => {
     event.preventDefault();
-    if (validateLink(setValid, setLinkError,profileLink )) {
+    if (validateLink(setValid, setLinkError, profileLink)) {
+      console.log ("this is valid")
       handleFetchMetadata(); 
     }
   };

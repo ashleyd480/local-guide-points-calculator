@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { UserDataContext } from "../../contexts/UserDataContext";
-import DateAndGoal from "../../components/DateAndGoal/DateAndGoal";
+import DateAndGoal from "./DateAndGoal";
 import SmartCalcResult from "../../components/SmartCalcResult/SmartCalcResult";
 import { calculateUserPercentage } from "../../utils/smartCalculateFormulas/smartPercntage";
 import ManualFilter from "../../components/ManualFilter/ManualFilter";

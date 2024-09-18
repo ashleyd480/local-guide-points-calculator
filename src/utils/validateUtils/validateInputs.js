@@ -24,6 +24,7 @@ export const validateInputs = (setValid,setformErrors, userGoal, userData) => {
     setformErrors(formErrors);
     setValid(isValid);
 
-    return { isValid };
+    return isValid;
+    // learned don't have to put in {}, otherwise not correctly return boolean; to return value back- tested by see if non valid input can console.log "is valid"
   };
 

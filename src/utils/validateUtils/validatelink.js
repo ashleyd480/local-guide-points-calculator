@@ -21,5 +21,5 @@
     }
     setLinkError(errorMessage); // to move this outside of the if statement
     setValid(isValid);
-     return { isValid };
+     return isValid ;
   };
