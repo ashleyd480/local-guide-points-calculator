@@ -18,3 +18,12 @@ body {
   color:red;
   margin-top: 20px;
 }
+
+
+/* main settiing */
+
+.content-padding {
+  padding-top: 20px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+}

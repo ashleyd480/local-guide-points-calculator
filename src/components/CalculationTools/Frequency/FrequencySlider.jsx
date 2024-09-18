@@ -1,6 +1,6 @@
-import React from 'react';
-import { Box, Slider } from '@mui/material';
-import frequencyMarks from '../../utils/dataUtils/frequencyMarks';
+import React from "react";
+import { Box, Slider } from "@mui/material";
+import frequencyMarks from "../../../utils/dataUtils/frequencyMarks";
 
 const FrequencySlider = ({ frequency, handleSliderChange }) => (
   <Box sx={{ width: 300 }}>
@@ -11,7 +11,7 @@ const FrequencySlider = ({ frequency, handleSliderChange }) => (
       value={frequency}
       onChange={handleSliderChange}
       step={1} // Adjusting the step to match the mark values
-      marks={frequencyMarks} 
+      marks={frequencyMarks}
       valueLabelDisplay="on" // force numbers to show on ticks
       min={1}
       max={7}

@@ -1,7 +1,9 @@
-import React, { useState } from "react";
-import GoalInput from "../../components/CalculationTools/GoalInput";
-import DateInput from "../../components/CalculationTools/DateInput";
-import FrequencySlider from "../../components/CalculationTools/FrequencySlider";
+import React, { useState, useContext, useEffect} from "react";
+import {useLocation } from "react-router-dom";
+import { UserDataContext } from "../../contexts/UserDataContext";
+import GoalInput from "../../components/CalculationTools/Goal/GoalInput";
+import DateInput from "../../components/CalculationTools/Date/DateInput";
+import FrequencySlider from "../../components/CalculationTools/Frequency/FrequencySlider";
 import dayjs from "dayjs";
 import { calculateNumberPerContribution } from "../../utils/smartCalculateFormulas/smartDivide";
 import { calculateNumberPerDay } from "../../utils/smartCalculateFormulas/smartDivide";
@@ -11,9 +13,17 @@ import {
 } from "../../utils/calculationUtils";
 import { validateInputs } from "../../utils/validateUtils/validateInputs";
 import { Button } from "@mui/material";
+import ManualFilter from "../../components/CalculationTools/ManualFilter/ManualFilter";
+import ManualCalcResult from "../../components/ManualCalcResult/ManualCalcResult";
 
+const ManualCalc = () => {
 
-const DateAndGoal = ({ userData, percentages }) => {
+    // port over userData info 
+    const { userData, setUserData } = useContext(UserDataContext); 
+
+    // port over percentages
+    const location = useLocation();
+    const { percentages } = location.state 
   const [valid, setValid] = useState(true);
   const [difference, setDifference] = useState(0);
   const [numberPerContribution, setNumberPerContribution] = useState({});
@@ -26,6 +36,14 @@ const DateAndGoal = ({ userData, percentages }) => {
     goalDate: "",
     frequency: "",
   });
+    
+    // to render user data on page refresh
+    useEffect(() => {
+        const storedUserData = localStorage.getItem("userData");
+        if (storedUserData) {
+          setUserData(JSON.parse(storedUserData));
+        }
+      }, [setUserData]);
 
   /* ---- ON CHANGE HANDLER ---- */
 
@@ -74,7 +92,6 @@ const DateAndGoal = ({ userData, percentages }) => {
       );
 
       setNumberPerDateFrequency(numberPerDateFrequency);
-  
     }
   };
 
@@ -94,12 +111,9 @@ const DateAndGoal = ({ userData, percentages }) => {
       <FrequencySlider
         frequency={frequency}
         handleSliderChange={handleSliderChange}
-      />
-      {/* <ErrorMessages formErrors={formErrors} />
-      <CalculateButtons
-        onSmartCalculate={onSmartCalculate}
-        onManualCalculate={onManualCalculate}
-      /> */}
+          />
+          
+          <ManualFilter />
 
       {/* creating an array of values of errors object- if there are values(errors)- we conditionally render them */}
 
@@ -114,15 +128,12 @@ const DateAndGoal = ({ userData, percentages }) => {
         </div>
       )}
 
-      <Button variant="contained" onClick={onSmartCalculate}>
-        Smart Calculate
-      </Button>
-
       <Button variant="contained" onClick={onManualCalculate}>
         Manual Calculate
       </Button>
+
+      <ManualCalcResult />
     </div>
   );
 };
-
-export default DateAndGoal;
+export default ManualCalc;

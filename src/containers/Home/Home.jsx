@@ -23,9 +23,13 @@ const Home = () => {
     try {
       // initialize with the provided link
       await contributionMetadata.init("/api" + profileLink);
+
+      // clear existing data that was saved in local storage
+      localStorage.removeItem("userData");
+    
+
       // update userData
-      setUserData((prevState) => ({
-        ...prevState,
+      const newUserData = {
         points: contributionMetadata.getPoints(),
         level: contributionMetadata.getLevel(),
         reviews: contributionMetadata.getReviews(),
@@ -40,7 +44,11 @@ const Home = () => {
         roadsAdded: contributionMetadata.getRoadsAdded(),
         factsChecked: contributionMetadata.getFactsChecked(),
         qa: contributionMetadata.getQA(),
-      }));
+      };
+      setUserData(newUserData);
+      localStorage.setItem('userData', JSON.stringify(newUserData));
+      // localStorage can only be stored as string (so objects, etc converted to string)
+      // we can then parse it when we need it 
     } catch (error) {
       setError(`An error occurred: ${error.message}`); // Display error message
     } finally {
@@ -49,7 +57,7 @@ const Home = () => {
   };
 
   const nextPage = () => {
-    navigate("/calculatepage");
+    navigate("/calculate-options");
   };
 
   return (

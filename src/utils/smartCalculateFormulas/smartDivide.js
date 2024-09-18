@@ -7,7 +7,7 @@ export const calculateNumberPerContribution = (difference, percentages) => { // 
     for (let [key, value] of Object.entries(percentages)) {
         if (value > 0) {
             const points = value/100 * difference;
-            const number = points / categoryPointsMap.get(key);
+            const number = Math.round (points / categoryPointsMap.get(key));
             console.log ("the point is " + points + "they key is " + key)
             numberContributionsMap.set(key, number);
         }
