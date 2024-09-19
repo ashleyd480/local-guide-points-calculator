@@ -1,6 +1,6 @@
-const fetch = require('node-fetch');
+import fetch from 'node-fetch';
 
-exports.handler = async (event) => {
+const handler = async (event) => {
     const targetUrl = `https://www.google.com${event.path.replace('/.netlify/functions/proxy', '')}`;
 
     try {
