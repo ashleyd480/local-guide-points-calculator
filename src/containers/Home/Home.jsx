@@ -22,7 +22,7 @@ const Home = () => {
     const contributionMetadata = new ContributionMetadata(); // so each user can work with seperate instance of the metadata retriever
     try {
       // initialize with the provided link
-      await contributionMetadata.init(`/api/${profileLink}`);
+      await contributionMetadata.init("/api" + profileLink);
 
       // clear existing data that was saved in local storage
       localStorage.removeItem("userData");
