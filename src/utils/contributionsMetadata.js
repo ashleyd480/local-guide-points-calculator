@@ -17,6 +17,8 @@ import axios from "axios";
 
 class ContributionMetadata {
   async init(link) {
+    
+
     this.responseBody = await this.getResponseBody(link);
   }
 
@@ -226,8 +228,14 @@ class ContributionMetadata {
    * @return {string} response data which is a string of the entire web page
    */
   async getResponseBody(link) {
-    return (await axios.get(link)).data;
+    // return ( await axios.get('/.netlify/functions/proxy/maps/contrib/111713559054035959782')(link)).data;
+    
+      // Ensure the link is formatted correctly for the proxy
+      const formattedLink = link.replace('https://www.google.com/maps/contrib/', '/maps/contrib/');
+      return (await axios.get(`/.netlify/functions/proxy${formattedLink}`)).data;
   }
+
+  
 }
 
 // module.exports = ContributionMetadata;
