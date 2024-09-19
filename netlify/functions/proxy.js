@@ -8,11 +8,11 @@ const handler = async (event) => {
             method: event.httpMethod,
             headers: {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
-                'Access-Control-Allow-Origin': '*', // Allow all origins
+                'Access-Control-Allow-Origin': '*', // allow all origins
             },
         });
 
-        const data = await response.text(); // Or response.json() depending on what you're fetching
+        const data = await response.text(); 
 
         return {
             statusCode: response.status,
