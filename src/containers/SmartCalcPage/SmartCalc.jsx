@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { UserDataContext } from "../../contexts/UserDataContext";
 import GoalInput from "../../components/CalculationTools/Goal/GoalInput";
 import DateInput from "../../components/CalculationTools/Date/DateInput";
@@ -16,17 +16,21 @@ import { Button } from "@mui/material";
 import SmartCalcResult from "../../components/SmartCalcResult/SmartCalcResult";
 
 const SmartCalc = () => {
+  // navigate hook
+  const navigate = useNavigate();
+
   // port over userData info
   const { userData, setUserData } = useContext(UserDataContext);
 
   // port over percentages
   const location = useLocation();
   const { percentages } = location.state;
-
   const [valid, setValid] = useState(true);
   const [difference, setDifference] = useState(0);
   const [numberPerContribution, setNumberPerContribution] = useState(new Map()); // must initialize as map vs {} which is for object
-  const [numberPerDateFrequency, setNumberPerDateFrequency] = useState(new Map());
+  const [numberPerDateFrequency, setNumberPerDateFrequency] = useState(
+    new Map()
+  );
   const [userGoal, setUserGoal] = useState(0);
   const [goalDate, setGoalDate] = useState(dayjs().add(1, "day")); // default to tomorrow's date
   const [frequency, setFrequency] = useState(1);
@@ -35,6 +39,8 @@ const SmartCalc = () => {
     goalDate: "",
     frequency: "",
   });
+
+  const [showTable, setShowTable] = useState(false); // state to track table visibility,this is then set to true when we click button
 
   // to render user data on page refresh
   useEffect(() => {
@@ -91,16 +97,13 @@ const SmartCalc = () => {
       );
 
       setNumberPerDateFrequency(numberPerDateFrequency);
+      setShowTable(true);
     }
   };
 
-  // manage click of manual calculate
-
-  const onManualCalculate = (event) => {
-    if (validateInputs(setValid, setformErrors, userGoal, userData)) {
-      console.log("just testing date for now" + formattedGoalDate);
-      console.log("and days in between is " + daysInBetween);
-    }
+  //go back button
+  const goBack = () => {
+    navigate("/calculate-options");
   };
 
   return (
@@ -127,9 +130,24 @@ const SmartCalc = () => {
 
       <Button variant="contained" onClick={onSmartCalculate}>
         Smart Calculate
+          </Button>
+          
+
+          <Button variant="contained" onClick={goBack}>
+        Go Back
       </Button>
 
-          <SmartCalcResult userGoal={userGoal} goalDate={goalDate} frequency={frequency}  percntages = {percentages} numberPerContribution = {numberPerContribution} numberPerDateFrequency = {numberPerDateFrequency} />
+      {showTable && (
+        <SmartCalcResult
+          userGoal={userGoal}
+          difference={difference}
+          goalDate={goalDate}
+          frequency={frequency}
+          percentages={percentages}
+          numberPerContribution={numberPerContribution}
+          numberPerDateFrequency={numberPerDateFrequency}
+        />
+      )}
     </div>
   );
 };

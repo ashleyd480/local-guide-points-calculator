@@ -6,8 +6,8 @@ export const calculateNumberPerContribution = (difference, percentages) => { // 
     let numberContributionsMap = new Map();
     for (let [key, value] of Object.entries(percentages)) {
         if (value > 0) {
-            const points = value/100 * difference;
-            const number = Math.round (points / categoryPointsMap.get(key));
+            const points = value/100 * difference; // /using % to calcualate points
+            const number = Math.round (points / categoryPointsMap.get(key)); // converting points to number of contributions
             console.log ("the point is " + points + "they key is " + key)
             numberContributionsMap.set(key, number);
         }
@@ -23,7 +23,13 @@ export const calculateNumberPerDay = (difference, percentages, daysInBetween, fr
     const numberPerContributionMap = calculateNumberPerContribution(difference, percentages);
 
     for (let [key, value] of numberPerContributionMap) {
-        let newValuePerDateFrequency = Math.round(value / daysInBetween / frequency); // Round to nearest integer
+        let newValuePerDateFrequency = 0;
+        if (daysInBetween === 0) {
+            newValuePerDateFrequency = value;
+        }
+        else { newValuePerDateFrequency = Math.round(value / daysInBetween / frequency); } // Round to nearest integer
+      
+        console.log("days in between is " + daysInBetween);
         numberFrequencyDatesMap.set(key, newValuePerDateFrequency);
         console.log("the number per freq is " + newValuePerDateFrequency + " they key is " + key);
     }

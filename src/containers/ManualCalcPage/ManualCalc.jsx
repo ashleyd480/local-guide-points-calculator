@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect} from "react";
-import {useLocation } from "react-router-dom";
+import {useLocation, useNavigate } from "react-router-dom";
 import { UserDataContext } from "../../contexts/UserDataContext";
 import GoalInput from "../../components/CalculationTools/Goal/GoalInput";
 import DateInput from "../../components/CalculationTools/Date/DateInput";
@@ -15,15 +15,21 @@ import { validateInputs } from "../../utils/validateUtils/validateInputs";
 import { Button } from "@mui/material";
 import ManualFilter from "../../components/CalculationTools/ManualFilter/ManualFilter";
 import ManualCalcResult from "../../components/ManualCalcResult/ManualCalcResult";
+import { calculateFilteredPercentages } from "../../utils/calculationUtils";
+
 
 const ManualCalc = () => {
 
+     // navigate hook
+    const navigate = useNavigate();
+    
     // port over userData info 
     const { userData, setUserData } = useContext(UserDataContext); 
 
     // port over percentages
     const location = useLocation();
     const { percentages } = location.state 
+    const [checkedCategoriesPercentages, setCheckedCategoriesPercentages] = useState({});
   const [valid, setValid] = useState(true);
   const [difference, setDifference] = useState(0);
   const [numberPerContribution, setNumberPerContribution] = useState({});
@@ -36,7 +42,14 @@ const ManualCalc = () => {
     goalDate: "",
     frequency: "",
   });
+
+  const [categoriesCheckedData, setCategoriesCheckedData] = useState([]);    // checklist 
+  const [showTable, setShowTable] = useState(false); // state to track table visibility,this is then set to true when we click button 
     
+    // to recevie checked cateegories 
+    const handleCategoriesChange = (checkedCategories) => {
+        setCategoriesCheckedData(checkedCategories)
+    }
     // to render user data on page refresh
     useEffect(() => {
         const storedUserData = localStorage.getItem("userData");
@@ -68,41 +81,47 @@ const ManualCalc = () => {
   const daysInBetween = calculateDaysInBeteen(formattedGoalDate);
 
   /* ----ON CLICK ---- */
-  // prevent submission until user fixes their error for button
-  const onSmartCalculate = (event) => {
+    // prevent submission until user fixes their error for button
+     // manage click of manual calculate
+  const onManualCalculate = (event) => {
     event.preventDefault();
     if (validateInputs(setValid, setformErrors, userGoal, userData)) {
       console.log("the input is valid"); // tip I learned for seeing if validation works with test input
       const difference = calculateDifference(userData.points, userGoal);
-      setDifference(difference);
+        setDifference(difference);
+        
+        const checkedCategoriesPercentages = calculateFilteredPercentages(categoriesCheckedData)
+        setCheckedCategoriesPercentages(checkedCategoriesPercentages);
+        console.log("manual % ", checkedCategoriesPercentages);
 
       const numberPerContribution = calculateNumberPerContribution(
         difference,
-        percentages
+        checkedCategoriesPercentages
       );
-      console.log("the difference is " + difference);
+        console.log("the difference is " + difference);
+        console.log("and days in between is " + daysInBetween);
       console.log(numberPerContribution);
       setNumberPerContribution(numberPerContribution);
 
       const numberPerDateFrequency = calculateNumberPerDay(
         difference,
-        percentages,
+        checkedCategoriesPercentages,
         daysInBetween,
         frequency
       );
 
-      setNumberPerDateFrequency(numberPerDateFrequency);
+        setNumberPerDateFrequency(numberPerDateFrequency);
+        
+        setShowTable(true)
     }
   };
 
-  // manage click of manual calculate
+    
+    //go back button
+    const goBack = () => {
+        navigate("/calculate-options");
+      };
 
-  const onManualCalculate = (event) => {
-    if (validateInputs(setValid, setformErrors, userGoal, userData)) {
-      console.log("just testing date for now" + formattedGoalDate);
-      console.log("and days in between is " + daysInBetween);
-    }
-  };
 
   return (
     <div>
@@ -112,8 +131,8 @@ const ManualCalc = () => {
         frequency={frequency}
         handleSliderChange={handleSliderChange}
           />
-          
-          <ManualFilter />
+          {/* {console.log(categoriesCheckedData)} */}
+          <ManualFilter onCategoriesChange={handleCategoriesChange}  />
 
       {/* creating an array of values of errors object- if there are values(errors)- we conditionally render them */}
 
@@ -130,9 +149,12 @@ const ManualCalc = () => {
 
       <Button variant="contained" onClick={onManualCalculate}>
         Manual Calculate
+          </Button>
+          <Button variant="contained" onClick={goBack}>
+        Go Back
       </Button>
 
-      <ManualCalcResult />
+          {showTable && <ManualCalcResult userGoal={userGoal} difference={difference} goalDate={goalDate} frequency={frequency} checkedPercentages={checkedCategoriesPercentages} categoriesCheckedData={categoriesCheckedData}  numberPerContribution={numberPerContribution} numberPerDateFrequency={numberPerDateFrequency} />}
     </div>
   );
 };

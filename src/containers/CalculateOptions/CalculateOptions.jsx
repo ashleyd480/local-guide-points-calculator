@@ -43,6 +43,11 @@ const CalculateOptions = () => {
   const onManualClick = () => {
     navigate("/manual-calculate", { state: { percentages } });
   };
+    
+/**
+ * concept refresher ".map" in javascript 
+ * takes the paramater of current value we are processing
+ * and the next param is the index */ 
 
   return (
     <>
