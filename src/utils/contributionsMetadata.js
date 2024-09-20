@@ -7,7 +7,7 @@
  * renamed "questions" to "answers"
  * parse number helper function added
  * add star after each of s- so regardless if singular (for 1) or plural - it will handle
- * ^we found this out by console.log the responseBody and test it on regex101.com 
+ * ^we found this out by console.log the responseBody and test it on regex101.com
  * updated regex to handle commas as noticed first digit cutting off when comma present
  */
 
@@ -17,8 +17,6 @@ import axios from "axios";
 
 class ContributionMetadata {
   async init(link) {
-    
-
     this.responseBody = await this.getResponseBody(link);
   }
 
@@ -39,12 +37,12 @@ class ContributionMetadata {
     return ContributionMetadata.parseNumber(pointsString);
   }
 
- /**
+  /**
    * Gets what level you are on your Local Guide Profile.
    * @public
    * @return {number} - Your level.
    */
- getLevel() {
+  getLevel() {
     let pattern = /Level (\d+) Local Guide/g;
     const levelString = this.getMatch(pattern);
     return ContributionMetadata.parseNumber(levelString);
@@ -182,7 +180,6 @@ class ContributionMetadata {
     return ContributionMetadata.parseNumber(qaString);
   }
 
-
   /**
    * gets all the metadata in one object
    * @public
@@ -216,7 +213,7 @@ class ContributionMetadata {
    */
   getMatch(pattern) {
     let matches = pattern.exec(this.responseBody);
-    console.log(this.responseBody) // referencing variable in the class
+    console.log(this.responseBody); // referencing variable in the class
     console.log(matches);
     return matches.length > 0 ? matches[1] : "";
   }
@@ -229,13 +226,20 @@ class ContributionMetadata {
    */
   async getResponseBody(link) {
     // return ( await axios.get('/.netlify/functions/proxy/maps/contrib/111713559054035959782')(link)).data;
-    
-      // Ensure the link is formatted correctly for the proxy
-      const formattedLink = link.replace('https://www.google.com/maps/contrib/', '/maps/contrib/');
-      return (await axios.get(`/.netlify/functions/proxy${formattedLink}`)).data;
-  }
 
-  
+    // Ensure the link is formatted correctly for the proxy
+      const formattedLink = link.replace('https://www.google.com/maps/contrib/', '/maps/contrib/');
+    return (await axios.get(`/.netlify/functions/proxy${formattedLink}`)).data;
+
+    // const corsProxyUrl = `https://corsproxy.io/?`;
+    // const formattedLink = link.replace(
+    //   "https://www.google.com/maps/contrib/",
+    //   "https://www.google.com/maps/contrib/"
+    // );
+    // const fullUrl = `${corsProxyUrl}${formattedLink}`;
+
+    // return (await axios.get(fullUrl)).data; 
+  }
 }
 
 // module.exports = ContributionMetadata;
