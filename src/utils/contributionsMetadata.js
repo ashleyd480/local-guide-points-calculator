@@ -228,9 +228,9 @@ class ContributionMetadata {
     // return ( await axios.get('/.netlify/functions/proxy/maps/contrib/111713559054035959782')(link)).data;
 
     // Ensure the link is formatted correctly for the proxy
-      const formattedLink = link.replace('https://www.google.com/maps/contrib/', '/maps/contrib/');
-    return (await axios.get(`/.netlify/functions/proxy${formattedLink}`)).data;
-
+    const formattedLink = link.replace('https://www.google.com/maps/contrib/', '/maps/contrib/');
+    const response = await axios.get(`/.netlify/functions/proxy${formattedLink}`);
+    return response.data;
     // const corsProxyUrl = `https://corsproxy.io/?`;
     // const formattedLink = link.replace(
     //   "https://www.google.com/maps/contrib/",
@@ -238,7 +238,7 @@ class ContributionMetadata {
     // );
     // const fullUrl = `${corsProxyUrl}${formattedLink}`;
 
-    // return (await axios.get(fullUrl)).data; 
+    // return (await axios.get(fullUrl)).data;
   }
 }
 
