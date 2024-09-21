@@ -25,7 +25,7 @@ const SmartCalc = () => {
   // port over percentages
   const location = useLocation();
   const { percentages } = location.state;
-  const [valid, setValid] = useState(true);
+  const [valid, setValid] = useState(false);
   const [difference, setDifference] = useState(0);
   const [numberPerContribution, setNumberPerContribution] = useState(new Map()); // must initialize as map vs {} which is for object
   const [numberPerDateFrequency, setNumberPerDateFrequency] = useState(

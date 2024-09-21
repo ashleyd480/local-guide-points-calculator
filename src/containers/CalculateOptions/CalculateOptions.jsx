@@ -43,6 +43,10 @@ const CalculateOptions = () => {
   const onManualClick = () => {
     navigate("/manual-calculate", { state: { percentages } });
   };
+
+  const goBack = () => {
+    navigate("/");
+  };
     
 /**
  * concept refresher ".map" in javascript 
@@ -91,6 +95,9 @@ const CalculateOptions = () => {
         Manual Calculalate
       </Button>
 
+      <Button variant="contained" onClick={goBack}>
+        Go Back
+      </Button>
      
     </>
   );

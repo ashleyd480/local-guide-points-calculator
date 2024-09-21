@@ -30,7 +30,7 @@ const ManualCalc = () => {
     const location = useLocation();
     const { percentages } = location.state 
     const [checkedCategoriesPercentages, setCheckedCategoriesPercentages] = useState({});
-  const [valid, setValid] = useState(true);
+  const [valid, setValid] = useState(false);
   const [difference, setDifference] = useState(0);
   const [numberPerContribution, setNumberPerContribution] = useState({});
   const [numberPerDateFrequency, setNumberPerDateFrequency] = useState({});
