@@ -8,6 +8,8 @@ import {
   TableBody,
 } from "@mui/material";
 
+import "./SmartCalcResult.css";
+
 const SmartCalcResult = ({
   userData,
   userGoal,
@@ -18,19 +20,17 @@ const SmartCalcResult = ({
   numberPerContribution,
   numberPerDateFrequency,
 }) => {
-
-
   return (
     <>
       <p>
-        Based on your goal points of {userGoal} you have a difference of{" "}
-        {difference} that you say you want to acheive by:{" "}
-        {goalDate.format("MM/DD/YYYY")} at {frequency} times per week, here is
-        plan for you calulated, weighted based on your current percentages{" "}
+        Based on your goal points of <strong>{userGoal}</strong> you have a
+        difference of <strong>{difference}</strong> that you say you want to
+        achieve by: <strong>{goalDate.format("MM/DD/YYYY")}</strong> at{" "}
+        <strong>{frequency}</strong> times per week, here is a plan calculated,
+        weighted based on your current percentages.
       </p>
-
       <TableContainer component={Paper}>
-        <Table>
+        <Table className="smart-calc-table">
           <TableHead>
             <TableRow>
               <TableCell>Category</TableCell>
@@ -45,24 +45,24 @@ const SmartCalcResult = ({
             {Object.entries(userData)
               .filter(([category, value]) => category !== "points")
               .map(
-              ([category, value]) =>
-                value > 0 && ( // only render if the value is greater than 0
-                  <TableRow key={category}>
-                    <TableCell>
-                      {category.charAt(0).toUpperCase() + category.slice(1)}
-                    </TableCell>
-                    <TableCell>
-                    {Math.round(percentages[category]) + "%"}
-                    </TableCell>
-                    <TableCell>
-                      {numberPerContribution.get(category)}
-                    </TableCell>
-                    <TableCell>
-                      {numberPerDateFrequency.get(category)}
-                    </TableCell>
-                  </TableRow>
-                )
-            )}
+                ([category, value]) =>
+                  value > 0 && ( // only render if the value is greater than 0
+                    <TableRow key={category}>
+                      <TableCell>
+                        {category.charAt(0).toUpperCase() + category.slice(1)}
+                      </TableCell>
+                      <TableCell>
+                        {Math.round(percentages[category]) + "%"}
+                      </TableCell>
+                      <TableCell>
+                        {numberPerContribution.get(category)}
+                      </TableCell>
+                      <TableCell>
+                        {numberPerDateFrequency.get(category)}
+                      </TableCell>
+                    </TableRow>
+                  )
+              )}
           </TableBody>
         </Table>
       </TableContainer>

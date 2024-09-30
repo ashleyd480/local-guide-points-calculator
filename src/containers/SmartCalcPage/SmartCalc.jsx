@@ -13,7 +13,9 @@ import {
 } from "../../utils/calculationUtils";
 import { validateSmartInputs } from "../../utils/validateUtils/validateSmartInputs copy";
 import { Button } from "@mui/material";
+import SmartInstructions from "../../components/Instructions/SmartInstructions";
 import SmartCalcResult from "../../components/SmartCalcResult/SmartCalcResult";
+
 
 const SmartCalc = () => {
   // port over userData info
@@ -108,9 +110,10 @@ const SmartCalc = () => {
     }
   };
 
-
   return (
     <div>
+      <h3> Smart Calculate: </h3>
+     <SmartInstructions />
       <GoalInput userGoal={userGoal} handleChange={handleChange} />
       <DateInput goalDate={goalDate} handleDateChange={handleDateChange} />
       <FrequencySlider
@@ -134,7 +137,6 @@ const SmartCalc = () => {
         <Button variant="contained" onClick={onSmartCalculate}>
           Smart Calculate
         </Button>
-
       </div>
 
       {showTable && (

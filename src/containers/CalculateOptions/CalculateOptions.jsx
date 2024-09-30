@@ -3,20 +3,21 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { UserDataContext } from "../../contexts/UserDataContext";
 import { calculateUserPercentage } from "../../utils/smartCalculateFormulas/smartPercntage";
 import { Button } from "@mui/material";
+import OptionsInstructions from "../../components/Instructions/OptionsInstructions";
 
 const CalculateOptions = () => {
   const { userData, setUserData } = useContext(UserDataContext);
   const [error, setError] = useState("");
-    const [percentages, setPercentages] = useState({});
-    
-    // to render user data on page refresh (because on page refresh, in-memory setuserState resets, so we pull from localstorage)
-    
-    useEffect(() => {
-        const storedUserData = localStorage.getItem('userData');
-        if (storedUserData) {
-          setUserData(JSON.parse(storedUserData));
-        }
-      }, [setUserData]);
+  const [percentages, setPercentages] = useState({});
+
+  // to render user data on page refresh (because on page refresh, in-memory setuserState resets, so we pull from localstorage)
+
+  useEffect(() => {
+    const storedUserData = localStorage.getItem("userData");
+    if (storedUserData) {
+      setUserData(JSON.parse(storedUserData));
+    }
+  }, [setUserData]);
 
   // to render current user percentages
   useEffect(() => {
@@ -35,7 +36,7 @@ const CalculateOptions = () => {
   // use navigate with location hook to pass
 
   const navigate = useNavigate();
-  
+
   const onSmartClick = () => {
     navigate("/smart-calculate", { state: { percentages } });
   };
@@ -44,16 +45,23 @@ const CalculateOptions = () => {
     navigate("/manual-calculate", { state: { percentages } });
   };
 
-    
-/**
- * concept refresher ".map" in javascript 
- * takes the paramater of current value we are processing
- * and the next param is the index */ 
+  /**
+   * concept refresher ".map" in javascript
+   * takes the paramater of current value we are processing
+   * and the next param is the index */
 
   return (
     <>
-      <h4> you have these points {userData.points} </h4>
-      <h4> Your current percentage trend as follows (rounded to nearest percent):</h4>
+      <h3> Calcuate Options: </h3>
+      <p>
+        Currently you have <strong>{userData.points}</strong> points
+      </p>
+      <p>
+        {" "}
+        Your current percentage trend (rounded to nearest %) based on your
+        number per contribution divided by total number of contributions is as
+        follows:{" "}
+      </p>
       {error ? (
         <h4 className="errorContainer">{error}</h4>
       ) : (
@@ -66,34 +74,19 @@ const CalculateOptions = () => {
         </ul>
       )}
 
-      
+      <OptionsInstructions />
 
-      <h4>
-        {" "}
-        Select if you want to smart calculate based on your %'s or you want to manually select
-      </h4>
-      <p>
-        {" "}
-        (also let's have this show when date and goal populated) A short blurb
-        about what each means{" "}
-      </p>
-      <p>
-        {" "}
-        note to self: based on what they select we determine which section to
-        show{" "}
-      </p>
-      
+  
+
       <div className="buttonGroup">
-      <Button variant="contained" onClick={onSmartClick}>
-        Smart Calculate
-      </Button>
+        <Button variant="contained" onClick={onSmartClick}>
+          Smart Calculate
+        </Button>
 
-      <Button variant="contained" onClick={onManualClick}>
-        Manual Calculalate
-      </Button>
+        <Button variant="contained" onClick={onManualClick}>
+          Manual Calculate
+        </Button>
       </div>
-     
-     
     </>
   );
 };

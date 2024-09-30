@@ -27,24 +27,30 @@ const Home = () => {
 
   return (
     <div>
+      <h3> Points and Contributions:</h3>
       <p>
-        {" "}
-        Here are instructions to use [maybe lets put this in another component
-        for cleaner code]:
+        Below, go ahead and enter the current number of points you have, as well as number of contributions you have per category. You can obtain these numbers by opening up Contributions tab of your mobile app. On desktop go to this  {" "}
+      <a 
+        href="https://www.google.com/maps/contrib/" 
+        target="_blank" 
+        rel="noopener noreferrer"
+      >
+        link
+        </a>
+        {" "} on a new tab.
       </p>
-      <p>
+      <p> When entering numbers, note that commas are not allowed and also you must enter valid numbers only. :) </p>
+    
         {" "}
-        you can leave blank if not did a category. make sure to enter points -
-        no commas allowed and only enter numbers
-      </p>
-      <p> </p>
-      <p>
-        {" "}
-        Here are step to get that link if you can't find it. Example look like
-        this xyz- and you can open this link [link here] in a new tab. make sure
-        only enter numnbers, no cmmas
-      </p>
 
+        <ol>
+     <li>  Make sure to enter your total number of points. That is a required field. </li>
+        <li> Next, enter the number of contributions that you have for each category. If you don't have any contributions for that category, then you can leave it blank. </li>
+        <li> Click submit when you are done. </li>
+        <li> You will see a confirmation below of what you entered below. </li>
+        <li> Click next to continue. </li>
+      </ol>
+     
       <HomeInput
         setUserData={setUserData}
         userData={userData}
@@ -54,10 +60,11 @@ const Home = () => {
       {valid && (
         <>
           <div>
+            <p> We received the following input: </p>
             <ul>
               {Object.entries(userData).map(([key, value]) => (
                 <li key={key}>
-                  {key.toLowerCase()}: {value}
+                   <strong>{key.toLowerCase()}:</strong> {value}
                 </li>
               ))}
             </ul>

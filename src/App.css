@@ -62,12 +62,17 @@ body {
 @media only screen and (min-width: 601px) {
 
   .content-padding {
-    /* padding-top: 20px;
-    padding-bottom: 10px;
-    padding-left: 20px; */
-
     margin-top: 20px;
     margin-left: 20px;
+  }
+
+  .centered-container {
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    justify-content: center; /* Center vertically */
+    width: 75vw;
+    align-items: left; /* Center horizontally */
+    padding-bottom: 30px;
   }
 
   .buttonGroup {

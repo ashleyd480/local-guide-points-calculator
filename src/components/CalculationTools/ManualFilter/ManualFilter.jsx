@@ -19,7 +19,7 @@ const ManualFilter = ({onCategoriesChange}) => {
     { category: "videos", checked: false },
     { category: "captions", checked: false },
     { category: "answers", checked: false },
-    { category: "qa", checked: false },
+    { category: "questionsAndAnswers", checked: false },
     { category: "edits", checked: false },
     { category: "reportedIncorrect", checked: false },
     { category: "placesAdded", checked: false },

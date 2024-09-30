@@ -16,7 +16,7 @@ export const UserDataContext = createContext({
         placesAdded: 0,
         roadsAdded: 0,
         factsChecked: 0, 
-        qa: 0
+        questionsAndAnswers: 0
     }, //inital object state of user data 
     setUserData: () => { } // placeholder setter function
 });

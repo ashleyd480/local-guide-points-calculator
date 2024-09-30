@@ -52,13 +52,13 @@ const HomeInput = ({ setUserData, userData, setValid }) => {
           formData.points !== undefined && formData.points !== null
             ? formData.points
             : ""
-        }
+        } // to resolve the uncontrolled component by giving formData.points a default value
         // this is then set as userData with the handleChange; we also give it an inital value
         onChange={handleChange}
         placeholder="Enter your total points"
         variant="outlined"
         type="number" // ensure no Naan, no commas, no whitespace
-        helperText="Please enter your current, without comma"
+        helperText="Please enter your current points, without comma"
         required
       />
 
@@ -75,7 +75,7 @@ const HomeInput = ({ setUserData, userData, setValid }) => {
           { label: "Places Added", name: "placesAdded" },
           { label: "Roads Added", name: "roadsAdded" },
           { label: "Facts Checked", name: "factsChecked" },
-          { label: "Questions and Answers", name: "qa" },
+          { label: "Questions and Answers", name: "questionsAndAnswers" },
         ].map((field) => (
           <Grid item xs={12} sm={6} key={field.name}>
             <TextField

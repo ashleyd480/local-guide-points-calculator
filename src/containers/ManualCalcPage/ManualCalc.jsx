@@ -13,6 +13,7 @@ import {
 } from "../../utils/calculationUtils";
 import { validateManualInputs } from "../../utils/validateUtils/validateManualInputs";
 import { Button } from "@mui/material";
+import ManualInstructions from "../../components/Instructions/ManualInstructions";
 import ManualFilter from "../../components/CalculationTools/ManualFilter/ManualFilter";
 import ManualCalcResult from "../../components/ManualCalcResult/ManualCalcResult";
 import { calculateFilteredPercentages } from "../../utils/calculationUtils";
@@ -129,6 +130,8 @@ const ManualCalc = () => {
 
   return (
     <div>
+      <h3> Manual Calculate: </h3>
+      <ManualInstructions />
       <GoalInput userGoal={userGoal} handleChange={handleChange} />
       <DateInput goalDate={goalDate} handleDateChange={handleDateChange} />
       <FrequencySlider
