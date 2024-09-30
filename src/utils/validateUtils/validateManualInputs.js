@@ -48,7 +48,7 @@ export const validateManualInputs = (setValid, setformErrors, userGoal, userData
   
   if (frequency > daysInBetween) {
     if (!(daysInBetween === 0 && frequency === 1)) {  
-      formErrors.frequency = "Your frequency exceeds the number of days to reach your goal date. Please decrease the frequency slider";
+      formErrors.frequency = "Your frequency exceeds the number of days to reach your goal date. Please decrease the frequency slider or select a later date.";
       isValid = false;
       // originally had this as nested if/else but it was incorrectly setting is-valid to true even if other validation inputs did not pass
     }

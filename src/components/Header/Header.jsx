@@ -9,6 +9,7 @@ import "./Header.css";
 const Header = () => {
   const navigate = useNavigate();
 
+    // #learning navigate -1 goes back to previous page
   return (
     <div className="header">
       <IconButton onClick={() => navigate(-1)} aria-label="back">

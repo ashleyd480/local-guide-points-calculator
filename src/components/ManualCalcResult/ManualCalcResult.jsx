@@ -7,6 +7,8 @@ import {
     TableCell,
     TableBody,
   } from "@mui/material";
+
+import "./ManualCalcResult.css"
   
   const ManualCalcResult = ({
       userGoal,
@@ -30,7 +32,7 @@ import {
   
         <TableContainer component={Paper}>
         
-          <Table>
+          <Table className="manual-calc-table">
             
             <TableHead>
              

@@ -1,0 +1,60 @@
+@media only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px) {
+    /* Force table elements to behave like blocks */
+    .manual-calc-table,
+    .manual-calc-table tbody,
+    .manual-calc-table th,
+    .manual-calc-table thead,
+    .manual-calc-table td,
+    .manual-calc-table tr {
+        display: block;
+    }
+
+    /* Position the table header row off-screen */
+    .manual-calc-table thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    /* Add border around each table row */
+    .manual-calc-table tr {
+        border: 1px solid #ccc;
+        margin-bottom: 10px; 
+    }
+
+    /* Style table cells */
+    .manual-calc-table td {
+        border: none;
+        border-bottom: 1px solid #eee;
+        padding-right: 100px; 
+        position: relative; /* Needed for the pseudo-element */
+    }
+
+    /* Pseudo-element for labeling cells */
+    .manual-calc-table td:before {
+        top: 6px;
+        left: 10px; /* Adjust left position to move it closer to the cell content */
+        width: 90px; /* Adjust width as needed */
+        padding-right: 10px;
+        white-space: nowrap;
+        font-weight: bold; /* Make labels bold */
+        content: attr(data-label); /* Use data-label attribute for content */
+        position: absolute; /* Position the label */
+    }
+
+    /* Label each column using data attributes */
+    .manual-calc-table td:nth-of-type(1):before {
+        content: "Category";
+    }
+    .manual-calc-table td:nth-of-type(2):before {
+        content: "Current Percent";
+    }
+    .manual-calc-table td:nth-of-type(3):before {
+        content: "Total Contributions Needed";
+    }
+    .manual-calc-table td:nth-of-type(4):before {
+        content: "Daily Contributions";
+    }
+
+}
