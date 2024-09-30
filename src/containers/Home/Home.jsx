@@ -34,10 +34,9 @@ const Home = () => {
       </p>
       <p>
         {" "}
-        Note- this will only work for public profiles - here are step to toggle
-        to public:
+      you can leave blank if not did a category. make sure to enter points - no commas allowed and only enter numbers
       </p>
-      <p> Now, enter your profile link below:</p>
+      <p> </p>
       <p>
         {" "}
         Here are step to get that link if you can't find it. Example look like

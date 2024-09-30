@@ -22,20 +22,20 @@ import {
     return (
       <>
         <p>
-          {" "}
+         
                 Based on your goal points of {userGoal} you have a difference of {difference} that you say you want to acheive by:{" "}
           {goalDate.format("MM/DD/YYYY")} at {frequency} times per week here is
           plan for you calulated, weighted based on your equal distribution percentages{" "}
         </p>
   
         <TableContainer component={Paper}>
-          {" "}
+        
           <Table>
-            {" "}
+            
             <TableHead>
-              {" "}
+             
               <TableRow>
-                {" "}
+               
                             <TableCell>Category</TableCell>{" "}
                             <TableCell>Current Percent</TableCell>{" "}
            
@@ -46,12 +46,12 @@ import {
               </TableRow>{" "}
             </TableHead>{" "}
             <TableBody>
-              {" "}
+             
                         {categoriesCheckedData.map((category) => (
-                            // use Array.from so we can call .map on Map
+                            // use Array.from so we can call .map on Map, the categoriesCheckedData is map data structure
                             // we don't need to pass index paramater in this case since category is already unique identiifer 
                 <TableRow key={category.category}>
-                                {" "}
+                               
                                 
                                 <TableCell>
                     {category.category.charAt(0).toUpperCase() + category.category.slice(1)}
@@ -59,19 +59,18 @@ import {
                                 </TableCell>{" "}
                                 <TableCell>
                                    
-                    {Math.round(checkedPercentages[category.category]) + "%"}
+                    {Math.ceil(checkedPercentages[category.category]) + "%"}
                   </TableCell>{" "}
                 
-                  {checkedPercentages[category.category] > 0 && (
-        <>
+      
           <TableCell>
-            {numberPerContribution.get(category.category) || 0}
+            {numberPerContribution.get(category.category)}
           </TableCell>
           <TableCell>
-            {numberPerDateFrequency.get(category.category) || 0}
+            {numberPerDateFrequency.get(category.category)}
           </TableCell>
-        </>
-      )}
+     
+   
     </TableRow>
   ))}
 </TableBody>

@@ -11,7 +11,7 @@ import {
   calculateDifference,
   calculateDaysInBeteen,
 } from "../../utils/calculationUtils";
-import { validateInputs } from "../../utils/validateUtils/validateInputs";
+import { validateSmartInputs } from "../../utils/validateUtils/validateSmartInputs copy";
 import { Button } from "@mui/material";
 import SmartCalcResult from "../../components/SmartCalcResult/SmartCalcResult";
 
@@ -76,7 +76,8 @@ const SmartCalc = () => {
   // prevent submission until user fixes their error for button
   const onSmartCalculate = (event) => {
     event.preventDefault();
-    if (validateInputs(setValid, setformErrors, userGoal, userData)) {
+    setShowTable(false);// reset showing the table so if not validated, no table is shown
+    if (validateSmartInputs(setValid, setformErrors, userGoal, userData, daysInBetween, frequency)) {
       console.log("the input is valid"); // tip I learned for seeing if validation works with test input
       const difference = calculateDifference(userData.points, userGoal);
       setDifference(difference);
@@ -130,15 +131,15 @@ const SmartCalc = () => {
 
       <Button variant="contained" onClick={onSmartCalculate}>
         Smart Calculate
-          </Button>
-          
+      </Button>
 
-          <Button variant="contained" onClick={goBack}>
+      <Button variant="contained" onClick={goBack}>
         Go Back
       </Button>
 
       {showTable && (
         <SmartCalcResult
+          userData = {userData}
           userGoal={userGoal}
           difference={difference}
           goalDate={goalDate}

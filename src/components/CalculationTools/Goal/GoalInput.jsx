@@ -13,6 +13,7 @@ const GoalInput = ({ userGoal, handleChange }) => (
         placeholder="Enter your desired points"
         helperText="Please enter the desired points, without comma"
         variant="outlined"
+        type = "number"
       />
     </FormControl>
   </div>

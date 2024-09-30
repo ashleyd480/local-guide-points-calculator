@@ -11,11 +11,12 @@ import {
   calculateDifference,
   calculateDaysInBeteen,
 } from "../../utils/calculationUtils";
-import { validateInputs } from "../../utils/validateUtils/validateInputs";
+import { validateManualInputs } from "../../utils/validateUtils/validateManualInputs";
 import { Button } from "@mui/material";
 import ManualFilter from "../../components/CalculationTools/ManualFilter/ManualFilter";
 import ManualCalcResult from "../../components/ManualCalcResult/ManualCalcResult";
 import { calculateFilteredPercentages } from "../../utils/calculationUtils";
+
 
 
 const ManualCalc = () => {
@@ -41,12 +42,13 @@ const ManualCalc = () => {
     userGoal: "",
     goalDate: "",
     frequency: "",
+    checkedCategories: ""
   });
 
   const [categoriesCheckedData, setCategoriesCheckedData] = useState([]);    // checklist 
   const [showTable, setShowTable] = useState(false); // state to track table visibility,this is then set to true when we click button 
     
-    // to recevie checked cateegories 
+    // to receive checked cateegories 
     const handleCategoriesChange = (checkedCategories) => {
         setCategoriesCheckedData(checkedCategories)
     }
@@ -85,11 +87,12 @@ const ManualCalc = () => {
      // manage click of manual calculate
   const onManualCalculate = (event) => {
     event.preventDefault();
-    if (validateInputs(setValid, setformErrors, userGoal, userData)) {
+    setShowTable(false); // reset showing the table so if not validated, no table is shown
+    if (validateManualInputs(setValid, setformErrors, userGoal, userData, daysInBetween, frequency, categoriesCheckedData)) {
       console.log("the input is valid"); // tip I learned for seeing if validation works with test input
       const difference = calculateDifference(userData.points, userGoal);
         setDifference(difference);
-        
+      
         const checkedCategoriesPercentages = calculateFilteredPercentages(categoriesCheckedData)
         setCheckedCategoriesPercentages(checkedCategoriesPercentages);
         console.log("manual % ", checkedCategoriesPercentages);

@@ -1,36 +1,21 @@
 import React, { useState } from "react";
 import { TextField, Button, FormControl, Grid } from "@mui/material";
-
+import { validateHomeInputs } from "../../utils/validateUtils/validateHome";
 const HomeInput = ({
   setUserData,
   userData,
-
   setValid,
 }) => {
 
 
-  // const [formData, setFormData] = useState({
-  //   points: 0,
-  //   reviews: 0,
-  //   ratings: 0,
-  //   photos: 0,
-  //   videos: 0,
-  //   captions: 0,
-  //   answers: 0,
-  //   edits: 0,
-  //   reportedIncorrect: 0,
-  //   placesAdded: 0,
-  //   roadsAdded: 0,
-  //   factsChecked: 0,
-  //   qa: 0,
-  // });
 
-  //userdata to initlize form
+  // userdata to initlize form
   //if user data was not initlized then we are updating unitalized states like username, etc
   // make a copy of userData so we can display it and still modify it without updating the userdata
   // we are updating the copy of user data so thats why we do formData.username,etc
   // and this way when user goes back it will still retain previously entered info 
   const [formData, setFormData] = useState({ ...userData });
+  const [formError, setFormError] = useState(""); 
 
   // handle when user enters data
   const handleChange = (event) => {
@@ -39,7 +24,6 @@ const HomeInput = ({
   
     setFormData((prevFormData) => ({
       ...prevFormData,
-    
       [name]: numericValue
     }));
   };
@@ -47,12 +31,15 @@ const HomeInput = ({
   // prevent submission until user fixes their error
   const onSubmit = (event) => {
     event.preventDefault();
-      setUserData(formData); 
+    if (validateHomeInputs(setFormError, formData)) {
+      setFormError("") // clear error message if valid
+      setUserData(formData);
       localStorage.removeItem("userData");
       // save new userData to local storage
-    localStorage.setItem("userData", JSON.stringify(formData));
-    setValid(true);
-    
+      localStorage.setItem("userData", JSON.stringify(formData));
+   
+      setValid(true);
+    }
   };
 
   // error are logged through the formcontrol
@@ -62,7 +49,8 @@ const HomeInput = ({
       <TextField
         label="Points"
         name="points"
-        value={formData.points} // this is then set as userData with the handleChange
+        value={formData.points !== undefined && formData.points !== null ? formData.points : ''} 
+        // this is then set as userData with the handleChange; we also give it an inital value
         onChange={handleChange}
         placeholder="Enter your total points"
         variant="outlined"
@@ -84,16 +72,16 @@ const HomeInput = ({
           { label: "Places Added", name: "placesAdded" },
           { label: "Roads Added", name: "roadsAdded" },
           { label: "Facts Checked", name: "factsChecked" },
-          { label: "QA", name: "qa" },
+          { label: "Questions and Answers", name: "qa" },
         ].map((field) => (
           <Grid item xs={12} sm={6} key={field.name}>
             <TextField
               label={field.label}
               name={field.name}
-              value={formData[field.name]}
+              value={formData[field.name] !== undefined && formData[field.name] !== null ? formData[field.name] : ''} // to resolve the uncontrolled component by giving formData a default value
               onChange={handleChange}
               variant="outlined"
-              type="number"
+              type="number" // only will accept numbers but materialUI will still display as String so have to parse int
               fullWidth
               margin="normal"
               helperText={`Please enter your number of ${field.label}, without comma`}
@@ -101,6 +89,12 @@ const HomeInput = ({
           </Grid>
         ))}
       </Grid>
+
+      {formError && ( //render error if user left points blank
+        <div>
+          <h4 className="errorContainer">{formError}</h4>
+        </div>
+      )}
 
       <Button variant="contained" onClick={onSubmit}>
         Submit

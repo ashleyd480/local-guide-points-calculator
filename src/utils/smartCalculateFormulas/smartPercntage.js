@@ -43,7 +43,7 @@ export const calculateUserPercentage = (obj) => {
   for (let [key, value] of Object.entries(filteredUserData)) {
     if (value > 0) {
       percentages[key] = (value / totalContributions) * 100; // calculate percentage
-    } else {
+    } else if (value === 0) {
       percentages[key] = 0;
     }
     //^ added this to resolve issue where it was saying info not present for a category when rendering table
