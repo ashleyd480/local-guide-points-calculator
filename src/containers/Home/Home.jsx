@@ -9,13 +9,13 @@ const Home = () => {
   const { userData, setUserData } = useContext(UserDataContext);
   const [valid, setValid] = useState(false);
 
-
   // navigate hook
   const navigate = useNavigate();
 
   const nextPage = () => {
     navigate("/calculate-options");
   };
+
 
   useEffect(() => {
     // load userData from local storage on component mount; i.e. if user refresh the page
@@ -34,17 +34,16 @@ const Home = () => {
       </p>
       <p>
         {" "}
-      you can leave blank if not did a category. make sure to enter points - no commas allowed and only enter numbers
+        you can leave blank if not did a category. make sure to enter points -
+        no commas allowed and only enter numbers
       </p>
       <p> </p>
       <p>
         {" "}
         Here are step to get that link if you can't find it. Example look like
-        this xyz- and you can open this link [link here] in a new tab.
-        make sure only enter numnbers, no cmmas
+        this xyz- and you can open this link [link here] in a new tab. make sure
+        only enter numnbers, no cmmas
       </p>
-
-      
 
       <HomeInput
         setUserData={setUserData}
@@ -52,8 +51,7 @@ const Home = () => {
         setValid={setValid}
       />
 
-      {valid &&
-        (
+      {valid && (
         <>
           <div>
             <ul>
@@ -67,9 +65,11 @@ const Home = () => {
 
           {/* conditionally render Next button when fetch metadata loads */}
           {valid && (
+            <div className="buttonGroup">
             <Button variant="contained" onClick={nextPage}>
               Next
-            </Button>
+              </Button>
+              </div>
           )}
         </>
       )}

@@ -1,30 +1,26 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { TextField, Button, FormControl, Grid } from "@mui/material";
 import { validateHomeInputs } from "../../utils/validateUtils/validateHome";
-const HomeInput = ({
-  setUserData,
-  userData,
-  setValid,
-}) => {
 
-
-
+const HomeInput = ({ setUserData, userData, setValid }) => {
   // userdata to initlize form
   //if user data was not initlized then we are updating unitalized states like username, etc
   // make a copy of userData so we can display it and still modify it without updating the userdata
   // we are updating the copy of user data so thats why we do formData.username,etc
-  // and this way when user goes back it will still retain previously entered info 
+  // and this way when user goes back it will still retain previously entered info
   const [formData, setFormData] = useState({ ...userData });
-  const [formError, setFormError] = useState(""); 
+  const [formError, setFormError] = useState("");
 
   // handle when user enters data
   const handleChange = (event) => {
     const { name, value } = event.target;
-    const numericValue = parseInt(value, 10) // to handle numbers displaying as string
-  
+    const numericValue = parseInt(value, 10); // to handle numbers displaying as string
+
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: numericValue
+      [name]: numericValue,
     }));
   };
 
@@ -32,24 +28,31 @@ const HomeInput = ({
   const onSubmit = (event) => {
     event.preventDefault();
     if (validateHomeInputs(setFormError, formData)) {
-      setFormError("") // clear error message if valid
+      setFormError(""); // clear error message if valid
       setUserData(formData);
       localStorage.removeItem("userData");
       // save new userData to local storage
       localStorage.setItem("userData", JSON.stringify(formData));
-   
+
       setValid(true);
     }
   };
 
   // error are logged through the formcontrol
 
+  // if user change mind and want to navigate back home
+
+
   return (
     <div>
       <TextField
         label="Points"
         name="points"
-        value={formData.points !== undefined && formData.points !== null ? formData.points : ''} 
+        value={
+          formData.points !== undefined && formData.points !== null
+            ? formData.points
+            : ""
+        }
         // this is then set as userData with the handleChange; we also give it an inital value
         onChange={handleChange}
         placeholder="Enter your total points"
@@ -78,7 +81,12 @@ const HomeInput = ({
             <TextField
               label={field.label}
               name={field.name}
-              value={formData[field.name] !== undefined && formData[field.name] !== null ? formData[field.name] : ''} // to resolve the uncontrolled component by giving formData a default value
+              value={
+                formData[field.name] !== undefined &&
+                formData[field.name] !== null
+                  ? formData[field.name]
+                  : ""
+              } // to resolve the uncontrolled component by giving formData a default value
               onChange={handleChange}
               variant="outlined"
               type="number" // only will accept numbers but materialUI will still display as String so have to parse int
@@ -95,10 +103,12 @@ const HomeInput = ({
           <h4 className="errorContainer">{formError}</h4>
         </div>
       )}
-
-      <Button variant="contained" onClick={onSubmit}>
-        Submit
-      </Button>
+      <div className="buttonGroup">
+        <Button variant="contained" onClick={onSubmit}>
+          Submit
+        </Button>
+        
+      </div>
     </div>
   );
 };

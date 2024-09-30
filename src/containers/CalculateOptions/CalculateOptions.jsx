@@ -44,9 +44,6 @@ const CalculateOptions = () => {
     navigate("/manual-calculate", { state: { percentages } });
   };
 
-  const goBack = () => {
-    navigate("/");
-  };
     
 /**
  * concept refresher ".map" in javascript 
@@ -86,7 +83,7 @@ const CalculateOptions = () => {
         show{" "}
       </p>
       
-
+      <div className="buttonGroup">
       <Button variant="contained" onClick={onSmartClick}>
         Smart Calculate
       </Button>
@@ -94,10 +91,8 @@ const CalculateOptions = () => {
       <Button variant="contained" onClick={onManualClick}>
         Manual Calculalate
       </Button>
-
-      <Button variant="contained" onClick={goBack}>
-        Go Back
-      </Button>
+      </div>
+     
      
     </>
   );

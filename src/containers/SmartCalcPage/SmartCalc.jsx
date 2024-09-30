@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { UserDataContext } from "../../contexts/UserDataContext";
 import GoalInput from "../../components/CalculationTools/Goal/GoalInput";
 import DateInput from "../../components/CalculationTools/Date/DateInput";
@@ -16,9 +16,6 @@ import { Button } from "@mui/material";
 import SmartCalcResult from "../../components/SmartCalcResult/SmartCalcResult";
 
 const SmartCalc = () => {
-  // navigate hook
-  const navigate = useNavigate();
-
   // port over userData info
   const { userData, setUserData } = useContext(UserDataContext);
 
@@ -31,7 +28,7 @@ const SmartCalc = () => {
   const [numberPerDateFrequency, setNumberPerDateFrequency] = useState(
     new Map()
   );
-  const [userGoal, setUserGoal] = useState(0);
+  const [userGoal, setUserGoal] = useState("");
   const [goalDate, setGoalDate] = useState(dayjs().add(1, "day")); // default to tomorrow's date
   const [frequency, setFrequency] = useState(1);
   const [formErrors, setformErrors] = useState({
@@ -76,8 +73,17 @@ const SmartCalc = () => {
   // prevent submission until user fixes their error for button
   const onSmartCalculate = (event) => {
     event.preventDefault();
-    setShowTable(false);// reset showing the table so if not validated, no table is shown
-    if (validateSmartInputs(setValid, setformErrors, userGoal, userData, daysInBetween, frequency)) {
+    setShowTable(false); // reset showing the table so if not validated, no table is shown
+    if (
+      validateSmartInputs(
+        setValid,
+        setformErrors,
+        userGoal,
+        userData,
+        daysInBetween,
+        frequency
+      )
+    ) {
       console.log("the input is valid"); // tip I learned for seeing if validation works with test input
       const difference = calculateDifference(userData.points, userGoal);
       setDifference(difference);
@@ -102,10 +108,6 @@ const SmartCalc = () => {
     }
   };
 
-  //go back button
-  const goBack = () => {
-    navigate("/calculate-options");
-  };
 
   return (
     <div>
@@ -128,18 +130,16 @@ const SmartCalc = () => {
           ))}
         </div>
       )}
+      <div className="buttonGroup">
+        <Button variant="contained" onClick={onSmartCalculate}>
+          Smart Calculate
+        </Button>
 
-      <Button variant="contained" onClick={onSmartCalculate}>
-        Smart Calculate
-      </Button>
-
-      <Button variant="contained" onClick={goBack}>
-        Go Back
-      </Button>
+      </div>
 
       {showTable && (
         <SmartCalcResult
-          userData = {userData}
+          userData={userData}
           userGoal={userGoal}
           difference={difference}
           goalDate={goalDate}
