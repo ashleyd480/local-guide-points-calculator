@@ -49,7 +49,7 @@ const ManualFilter = ({onCategoriesChange}) => {
 
   return (
     <div>
-      <p>Check which one you want to contribute to</p>
+      <p>Check which one(s) you want to contribute to</p>
       <List>
         {Array.from(categoryPointsMap.entries()).map(
           (
