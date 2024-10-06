@@ -24,7 +24,7 @@ const Welcome = () => {
         <p>
           {" "}
           This calculator allows you to come up with a plan to achieve your
-          points goal by a certain date.With this calculator, you can either
+          points goal by a certain date. With this calculator, you can either
           have a plan:{" "}
         </p>
 

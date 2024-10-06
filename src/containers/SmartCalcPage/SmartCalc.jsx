@@ -11,7 +11,7 @@ import {
   calculateDifference,
   calculateDaysInBeteen,
 } from "../../utils/calculationUtils";
-import { validateSmartInputs } from "../../utils/validateUtils/validateSmartInputs copy";
+import { validateSmartInputs } from "../../utils/validateUtils/validateSmartInputs";
 import { Button } from "@mui/material";
 import SmartInstructions from "../../components/Instructions/SmartInstructions";
 import SmartCalcResult from "../../components/SmartCalcResult/SmartCalcResult";
