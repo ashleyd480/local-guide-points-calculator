@@ -28,13 +28,12 @@ const ManualFilter = ({onCategoriesChange}) => {
   ]);
 
     // react works on reference equality- so we make copy of the item so we can comparativley see if the checked status changed 
-    // false conditon of ternary is if original attribute of item.category is unchecked and new attributed is checked
   const handleCheckboxChange = (category) => {
     setCategories((prevCategories) =>
       prevCategories.map((item) =>
-        item.category === category
-          ? { ...item, checked: !item.checked }
-          : item
+        item.category === category // for each item see if the category matches the category checked 
+          ? { ...item, checked: !item.checked } // if it does, then we want to flip the checked status
+          : item // if it doesn't match, then we want to keep the item as it is
       )
     );
   };
@@ -44,7 +43,9 @@ const ManualFilter = ({onCategoriesChange}) => {
         // call the parent's callback function with the checked categories
         onCategoriesChange(categories.filter(category=>category.checked));
     }, [categories, onCategoriesChange]);
-    // it was reccomendmened by chatgpt to include the function in dependency array; to do- i want to search why
+  // if function is prop passed down from parent, then we want to make sure we include it in the dependency array
+  // this could be an issue if parent uses that function with data that changes over time, and if we don't include it in dependency- this can mean outdated data 
+  // but in our case we are not using that function with data that changes over time, so we can safely exclude it if we wanted 
     
 
   return (

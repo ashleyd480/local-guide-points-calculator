@@ -18,7 +18,7 @@ const DateInput = ({ goalDate, handleDateChange }) => (
         minDate={dayjs().add(1, "day")} // restrict to dates at least one day from today! lovin' this feature!
         renderInput={(params) => (
           <TextField
-            {...params} // customize how text field appears
+            {...params} // passes down the params (auto-managed by Date Picker: value, onChange, etc) to the TextField component
             placeholder="Enter the desired date"
             helperText="Please select a valid date"
             variant="outlined"

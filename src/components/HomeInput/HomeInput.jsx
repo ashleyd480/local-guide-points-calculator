@@ -6,9 +6,9 @@ import { validateHomeInputs } from "../../utils/validateUtils/validateHome";
 
 const HomeInput = ({ setUserData, userData, setValid }) => {
   // userdata to initlize form
-  //if user data was not initlized then we are updating unitalized states like username, etc
-  // make a copy of userData so we can display it and still modify it without updating the userdata
-  // we are updating the copy of user data so thats why we do formData.username,etc
+  // if user data was not initlized then we are updating unitalized states like username, etc
+  // make a copy of userData so we can display it and still modify it without updating the userData
+  // we are updating the copy of userData so thats why we do formData.username,etc
   // and this way when user goes back it will still retain previously entered info
   const [formData, setFormData] = useState({ ...userData });
   const [formError, setFormError] = useState("");
@@ -17,6 +17,7 @@ const HomeInput = ({ setUserData, userData, setValid }) => {
   const handleChange = (event) => {
     const { name, value } = event.target;
     const numericValue = parseInt(value, 10); // to handle numbers displaying as string
+    // 10 is the radix for base 10- allows the string numbers to be parsed as numbers
 
     setFormData((prevFormData) => ({
       ...prevFormData,
