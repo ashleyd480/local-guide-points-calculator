@@ -39,7 +39,7 @@ const SmartCalc = () => {
     frequency: "",
   });
 
-  const [showTable, setShowTable] = useState(false); // state to track table visibility,this is then set to true when we click button
+  const [showTable, setShowTable] = useState(false); // state to track table visibility, this is then set to true when we click button
 
   // to render user data on page refresh
   useEffect(() => {
@@ -121,7 +121,7 @@ const SmartCalc = () => {
         handleSliderChange={handleSliderChange}
       />
 
-      {/* creating an array of values of errors object- if there are values(errors)- we conditionally render them */}
+      {/* Object.values creating an array of values of errors object- if there are values(errors)- we conditionally render them */}
 
       {Object.values(formErrors).length > 0 && (
         <div>

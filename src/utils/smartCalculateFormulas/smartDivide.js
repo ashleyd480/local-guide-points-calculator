@@ -10,6 +10,7 @@ export const calculateNumberPerContribution = (difference, percentages) => { // 
             const number = Math.round (points / categoryPointsMap.get(key)); // converting points to number of contributions
             console.log ("the point is " + points + "they key is " + key)
             numberContributionsMap.set(key, number);
+            // eseentially populates map with categories and corresponding # of contributiosn needed
         }
     }
 
@@ -18,6 +19,7 @@ export const calculateNumberPerContribution = (difference, percentages) => { // 
 
 }
 
+// takes the populated map and calculates number of contributions per day per frequncy
 export const calculateNumberPerDay = (difference, percentages, daysInBetween, frequency) => { // we need to pass parameters from above since we're calling that function and it needs to know those values 
     let numberFrequencyDatesMap = new Map();
     const numberPerContributionMap = calculateNumberPerContribution(difference, percentages);

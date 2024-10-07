@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { UserDataContext } from "../../contexts/UserDataContext";
-import { calculateUserPercentage } from "../../utils/smartCalculateFormulas/smartPercntage";
+import { calculateUserPercentage } from "../../utils/smartCalculateFormulas/smartPercentage";
 import { Button } from "@mui/material";
 import OptionsInstructions from "../../components/Instructions/OptionsInstructions";
 
