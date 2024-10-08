@@ -26,7 +26,7 @@ export const calculateNumberPerDay = (difference, percentages, daysInBetween, fr
 
     for (let [key, value] of numberPerContributionMap) {
         let newValuePerDateFrequency = 0;
-        if (daysInBetween === 0) {
+        if (daysInBetween === 0) { // handle edge case of 0 days in between; Date Picker renders day difference as 0 otherwise which leads to infinity return
             newValuePerDateFrequency = value;
         }
         else { newValuePerDateFrequency = Math.round(value / daysInBetween / frequency); } // Round to nearest integer
