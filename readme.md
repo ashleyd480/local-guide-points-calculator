@@ -43,9 +43,8 @@ Further, I had a lightbulb moment when after bootcamp, we were instructed to sel
    - Invalid Submissions
    - Invalid Table
 6. **What I Learned**
-   - MUI
    - Reference Equality
-   - Infinite re-renders
+   - Infinite Re-renders
    - Dependency Array
      - Page Refreshes
    - _redirects
@@ -373,4 +372,104 @@ const handleDateChange = (newDate) => { setGoalDate(newDate); };
 With `onManualCalculate` and `onSmartCalculate`, it will only calculate and display results if the validation functions of `validateManualInputs` or `validateSmartInputs` respectively pass. 
 
 ![Validation Screenshot](src/assets/readme/validation.png)
+
 If any validation fails, the submission is halted, and the user is prompted to correct their inputs.
+
+## Invalid Table
+
+We don’t want to show the result table regardless of input validation. I noticed this error when some negative numbers returned in the result table during a test case where the goal points were less than current points, but the table was still rendered. 
+
+To prevent that: 
+
+- `showTable` is initialized as false in its useState, which prevents the table from rendering when the component first loads.
+
+- `onSmartCalculate` and `onManualCalculate` also reset `showTable` to false to ensure that any previously rendered table is hidden before validation occurs. (This was done due to another test case where initial input was valid, so a table rendered. Then, input was adjusted with some invalid numbers and the initial table still showed, which could mislead users).
+
+- Finally if the input validation passes, then `setShowTable` is set to true.
+The table is only rendered if `setShowTable` is true. For example: `   {showTable && (<SmartCalcResult…`
+
+
+---
+
+# What I learned 
+
+## Reference Equality
+
+React works on reference equality. For example, reference equality is used by React to compare the `prevCategories` (the original state) with the new array that is created after `handleCheckboxChange` runs in `ManualFilter`. 
+
+The `handleCheckboxChange` function updates the checked status of a category by iterating through the original `prevCategories` array, which represents the state before any changes.
+
+For each item, it checks if the `item.category` matches the `category` that was checked (aka passed as parameter in `handleCheckboxChange`). 
+
+- If it matches, a new object is created as a shallow copy of the item with the checked status flipped. 
+- If it doesn't match, the item remains unchanged. 
+
+By creating a new object for the modified item, React can effectively recognize the changes due to reference equality, triggering a re-render when necessary.
+This ensures only the specified category’s checked status is updated, while all other items are preserved as they are.
+
+
+![Referential Screenshot](src/assets/readme/referential.png)
+
+Reference equality is also used in `setFormData` as shown below. You can see how a copy of the current form state is made with `...prevFormData`. This is how React can then compare the current form state `prevFormData` with the copy, and if it detects changes- it re-renders the component to reflect the updated state.
+
+![Referential 2 Screenshot](src/assets/readme/referential2.png)
+
+## Infinite Re-renders
+
+I initially encountered an infinite re-render issue when trying to directly set the percentage using `setPercentages` The way I had it at first was calling `setPercentages` directly within the component’s render logic (outside of useEffect or an event handler).
+
+This meant that percentages would be set which would trigger a re-render. Each re-render then called `setPercentages` again, causing another re-render, and so on. This is why it leads to an infinite loop
+
+I resolved this by using `useEffect`, ensuring that the calculation only occurs after userData is available. 
+
+```
+useEffect(() => {
+   const { percentages, error } = calculateUserPercentage(userData);
+   setPercentages(percentages);
+   setError(error);
+ }, [userData]);
+```
+The code above to `setPercentages` will trigger a re-render, but the logic within useEffect won’t run again unless userData changes again, thus preventing the infinite loop.
+
+## Dependency Array
+If a function is passed down from a parent as a prop, and this function works with data that changes, it’s important to add this function to the `useEffect` dependency array to ensure that any updates from the parent are captured. 
+
+This is particularly crucial if the parent uses the function with data that changes over time. Omitting it could lead to outdated or stale data being used in the effect. 
+
+However, in cases where the function does not depend on changing data from the parent—like in this example—you can safely exclude it without risking issues with stale data.
+
+```
+ useEffect(() => {
+        // call the parent's callback function with the checked categories
+        onCategoriesChange(categories.filter(category=>category.checked));
+    }, [categories, onCategoriesChange]);
+```
+
+### Page Refreshes
+In `SmartCalc` and `ManualCalc`, `setUserData` is included in the useEffect dependency array to ensure reference stability and prevent stale closures, or in other words to ensure we have its latest version. 
+
+According to React's rules of hooks, all values referenced inside the useEffect (i.e. `setUserData`) should be included in the dependency array. This ensures that the effect remains in sync with the latest values and functions.
+
+When the page refreshes, the entire React component tree reloads, including a new instance of `setUserData`. During this refresh, the useEffect hook retrieves user data from local storage, ensuring the effect runs with the latest function reference, and this in short is how we get the data from localStorage on page refreshes. 
+
+![Dependency Screenshot](src/assets/readme/dependency.png)
+
+## _redirects
+
+When deploying a React app with React Router on Netlify, I encountered a "page doesn't exist" error on page refresh.  This issue arose because React Router handles routing on the client side, while Netlify's server expects server-side routes. 
+
+To resolve this, we can add a ` _redirects file` in the public directory, adding the line` /* /index.html 200`. This ensures that all routes serve index.html, allowing React Router to manage routing correctly and avoiding 404 errors.
+
+By always serving `index.html`, the server ensures that the client-side React application is loaded for every request. Once the React app is loaded, React Router takes over and reads the current URL route. It then determines which component to render based on that route.
+
+---
+
+# Looking Ahead
+
+In my initial approach, I attempted to use an Axios parser [library](https://github.com/jinwook-k/google-local-guides-api) to scrape user data from Google Maps profiles; library found on [Jinwook's GitHub](https://github.com/jinwook-k).
+
+The idea was to leverage regex to identify and extract specific information, such as the number of reviews, based on English keywords found within the HTML structure. This method would have saved users time by automating data entry. However, I encountered issues with imports and compliance with Google’s scraping policy.
+
+Ultimately, I realized that relying solely on regex was limiting, as it could only parse English content, whereas Google Maps is an international platform. Given this, instead of using the Axios parser, I built a user input box that allows users to manually enter their contribution numbers, which will then be saved to the userData object. This approach not only simplifies the implementation but also makes the tool more inclusive, as it accommodates users from diverse linguistic backgrounds. It’s worth noting that the Google Maps API does not provide any user data endpoints, which further justified this change in strategy.
+
+Looking to the future, I may explore other parsing tools or libraries that can handle a wider range of languages and data formats more effectively. Another idea for down the pipeline  in future iterations could be allowing users to save or export their plans. This would provide users with flexibility and convenience, allowing them to keep a record of their inputs beyond what is visible within the app.
