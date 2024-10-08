@@ -41,7 +41,8 @@ const SmartCalc = () => {
 
   const [showTable, setShowTable] = useState(false); // state to track table visibility, this is then set to true when we click button
 
-  // to render user data on page refresh
+  // to render user data on page refresh 
+  // (i.e.when page refreshes - the entire React component tree refreshes such as setUserData, so during this refresh- the `useEffect` hook retrives user data from locla storage
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");
     if (storedUserData) {

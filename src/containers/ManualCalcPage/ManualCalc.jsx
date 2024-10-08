@@ -44,10 +44,11 @@ const ManualCalc = () => {
   const [categoriesCheckedData, setCategoriesCheckedData] = useState([]); // checklist
   const [showTable, setShowTable] = useState(false); // state to track table visibility,this is then set to true when we click button
 
-  // to receive checked cateegories
+  // to receive checked cateegories, setting categoriesCheckedData to checked ones 
   const handleCategoriesChange = (checkedCategories) => {
     setCategoriesCheckedData(checkedCategories);
   };
+
   // to render user data on page refresh
   useEffect(() => {
     const storedUserData = localStorage.getItem("userData");

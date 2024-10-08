@@ -11,7 +11,8 @@ import { categoryPointsMap } from "../../../utils/dataUtils/categoryPointsMap";
 
 const ManualFilter = ({onCategoriesChange}) => {
     // to keep track of checks, and we pass this back to parent component with callback
-    // #learning #refresher 
+  // #learning #refresher 
+  // key-value pairs of category, and checked state
   const [categories, setCategories] = useState([
     { category: "reviews", checked: false },
     { category: "ratings", checked: false },
@@ -38,7 +39,8 @@ const ManualFilter = ({onCategoriesChange}) => {
     );
   };
     
-    // send the checked categories back
+  // send the checked categories back 
+  // this is because handleCategoriesChange from ManualCalc is = to onCategoriesChange and so the parameter being passed is the filtered list 
     useEffect(() => {
         // call the parent's callback function with the checked categories
         onCategoriesChange(categories.filter(category=>category.checked));

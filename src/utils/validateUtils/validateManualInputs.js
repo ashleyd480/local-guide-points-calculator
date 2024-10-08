@@ -10,7 +10,7 @@ export const validateManualInputs = (setValid, setformErrors, userGoal, userData
   
   // #learning, have to use seperate if statements, otherwise using if/else it will only display first error it encounters
   // concatenates errors with ternary- checks if existing error and if not- just show new error
-  // if existing error(s)- then take the current errors and display them first and appendnew error
+  // if existing error(s)- then take the current errors and display them first and append new error
   // only needed this ternary because multiple validation checks for that one field 
 
   if (!userGoal) {
