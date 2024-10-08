@@ -15,7 +15,7 @@ const HomeInput = ({ setUserData, userData, setValid }) => {
 
   // handle when user enters data
   const handleChange = (event) => {
-    const { name, valreferue } = event.target;
+    const { name, value } = event.target;
     const numericValue = parseInt(value, 10); // to handle numbers displaying as string
     // 10 is the radix for base 10- allows the string numbers to be parsed as numbers
 

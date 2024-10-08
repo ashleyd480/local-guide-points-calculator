@@ -302,7 +302,7 @@ In terms of category selection, checked categories are passed between `ManualCal
 Error handling in this project is primarily focused on validating user inputs and providing feedback to ensure that the data entered is correct and meets the required criteria. 
 
 ## Validation Functions
-As mentioned in[Validate Utils](#validate-utils), we have the `validateHome`, `validateManualInputs` and `validateSmartInputs` to check user input. 
+As mentioned in [Validate Utils](#validate-utils), we have the `validateHome`, `validateManualInputs` and `validateSmartInputs` to check user input. 
 
 For consistency, both `validateManualInputs` and `validateSmartInputs`:
 - Initialize `isValid` as true and set formErrors to an empty object at the start.
