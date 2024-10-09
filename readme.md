@@ -61,7 +61,17 @@ The app can perform two types of calculations to help users devise a plan to rea
 
 - **Manual-calculate**: User would select which categories you want to contribute to. Each selected category is then given an equal % weight, and the difference to goal is multiplied by those equal %, and the date/frequency is taken into account to get the user plan.
 
-**Note**: I’m calculating % by total contributions vs points to be more equitably accurate (as points can incorrectly skew distributions- say if a category earns more points).
+**Note**: 
+
+- **Percentages**: I’m calculating % by total contributions vs points to be more equitably accurate (as points can incorrectly skew distributions- say if a category earns more points).
+
+- **Effective Frequency**: I had to tweak the `calculateNumberPerDay`, by using "effective frequency" to more accurately derive a plan. 
+`let effectiveFrequency = (frequency / 7) * daysInBetween;`
+This works by seeing the days from today to the user's selected date. Then, from there, it is divided by 7 to get the number of weeks left. Next, it is multiplied by the frequency to get the effective frequency- or the actual number of days the user will be contributing.
+
+For example, if we have 14 days left (2 weeks) and we have to contribute 3 times a week, we have to contribute 6 times in total- so 6 would be our "effective frequency".
+
+
 
 ## Design
 
@@ -220,13 +230,22 @@ numberContributionsMap.set(key, number);
 
 ### frequencyMarks 
 
-`frequencyMarks` is used in the `FrequencySlider` component to allow users to select how often they want to contribute: between 1-7 times per week. When calculating how many contributions a user needs to make per day, the selected frequency is used to divide the total contributions needed by the number of days left till the goal date, and then divided by the frequency, allowing for a clear breakdown of daily goals.
+`frequencyMarks` is used in the `FrequencySlider` component to allow users to select how often they want to contribute: between 1-7 times per week. When calculating how many contributions a user needs to make per day, the selected frequency is used to determine how many contributions are needed per day based on selected frequency and target date. 
 
 ```
-  if (daysInBetween === 0) {
-            newValuePerDateFrequency = value;
+if (daysInBetween === 0) { 
+  // handle edge case of 0 days in between; Date Picker renders day difference as 0 otherwise which leads to infinity return newValuePerDateFrequency = value;
         }
- else { newValuePerDateFrequency = Math.round(value / daysInBetween / frequency); } 
+        else {
+            // calculate the effective contribution days based on frequency per week
+            // days in between divided by 7 means how many week(s) we have to contribution and then frequency is how many times we have to contribute per week- so we get total # of times we have to contribute
+            // example: if we have 14 days left (2 weeks) and we have to contribute 3 times a week, we have to contribute 6 times in total
+            // then we can divide the number of contributions by the number of times we have to contribute to get the number of contributions per day
+
+            let effectiveFrequency = (frequency / 7) * daysInBetween;
+            newValuePerDateFrequency = Math.round(value / effectiveFrequency);
+            // newValuePerDateFrequency = Math.round(value / daysInBetween / frequency);
+        } 
 ```
 **Note**: for the MUI `DateInput` component, we noticed that `daysInBetween` calculated as 0 when we selected the following day (and this would cause infinity to be the return value of the goal plan if the next day was chosen). 
 
@@ -244,7 +263,7 @@ The key functions it has are:
 
 - `calculateNumberPerContribution`: determines how many contributions a user should make for each category based on the difference in points they need to achieve their goal. It takes the `difference` parameter (number of points needed to get to goal) and `percentages` (an object containing the percentage of contributions for each category).
 
-- `calculateNumberPerDay`: takes the populated map from `calculateNumberPerContribution` and iterates through it, dividing the number of contributions needed by days remaining until goal date, divided then by desired frequency
+- `calculateNumberPerDay`: takes the populated map from `calculateNumberPerContribution` and iterates through it, dividing the number of contributions needed by days remaining until goal date, divided then by desired (effective) frequency.
 
 
 ### smartPercentage

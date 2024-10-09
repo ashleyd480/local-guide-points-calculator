@@ -30,7 +30,11 @@ export const calculateNumberPerDay = (difference, percentages, daysInBetween, fr
             newValuePerDateFrequency = value;
         }
         else {
-            // Calculate the effective contribution days based on frequency per week
+            // calculate the effective contribution days based on frequency per week
+            // days in between divided by 7 means how many week(s) we have to contribution and then frequency is how many times we have to contribute per week- so we get total # of times we have to contribute
+            // example: if we have 14 days left (2 weeks) and we have to contribute 3 times a week, we have to contribute 6 times in total
+            // then we can divide the number of contributions by the number of times we have to contribute to get the number of contributions per day
+
             let effectiveFrequency = (frequency / 7) * daysInBetween;
             newValuePerDateFrequency = Math.round(value / effectiveFrequency);
             // newValuePerDateFrequency = Math.round(value / daysInBetween / frequency);
