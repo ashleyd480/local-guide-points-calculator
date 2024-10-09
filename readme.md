@@ -4,7 +4,8 @@
 
 # Intro
 This project was created in my 7th month of coding, using React, Javascript, and CSS. It also utilizes the Material UI (MUI) library.
-This project allows Google Maps Local Guide volunteer users to devise a plan to reach their desired goal points. I was inspired by the community’s passion and drive to achieve points as they contribute to crowdsourcing content on Google Maps. 
+
+This tool allows Google Maps Local Guide volunteer users to devise a plan to reach their desired goal points. I was inspired by the community’s passion and drive to achieve points as they contribute to crowdsourcing content on Google Maps. 
 Further, I had a lightbulb moment when after bootcamp, we were instructed to self-study data structures and algorithms. A month and half in, I realized how Leetcode is akin to creating a mathematical formula to solve a problem. In this case, the formula would be how to calculate the number of contributions needed to reach a goal. Currently, there exists no way, and so I thought of how we can both smart-calculate based on user current behavior and manual-calculate based on user selection. I then built a UI tool around it that users can use. You can try out this tool at: https://local-guides-calculator.netlify.app/. 
 
 
@@ -76,7 +77,7 @@ For example, if we have 14 days left (2 weeks) and we have to contribute 3 times
 ```
 let effectiveFrequency = (frequency / 7) * daysInBetween;
 if (daysInBetween === 0) {
-      // handle edge case of 0 days in between; Date Picker renders day difference as 0 otherwise which leads to infinity return
+// handle edge case of 0 days in between; Date Picker renders day difference as 0 otherwise which leads to infinity return
       newValuePerDateFrequency = value;
     } else if (daysInBetween <= frequency ) {
       newValuePerDateFrequency = Math.round(value / frequency);
@@ -85,7 +86,6 @@ if (daysInBetween === 0) {
     }
 
 ```
-
 
 
 ## Design
@@ -222,7 +222,7 @@ They key functions it has are:
 
 - `calculateDifference`: calculates the difference between the user's current points and their goal.
 
-- `calculateDaysInBetween`: calculates the number of days between today and a specified goal date.
+- `calculateDaysInBetween`: calculates the number of days between today and a specified goal date. 
 
 - `calculateFilteredPercentages`: calculates the percentages for checked categories based on user input for `ManualCalc`; it essentially divides 100 by the number of categories checked since percentages for manual calculation are equally divided 
 
@@ -262,7 +262,7 @@ if (daysInBetween === 0) {
             // newValuePerDateFrequency = Math.round(value / daysInBetween / frequency);
         } 
 ```
-**Note**: for the MUI `DateInput` component, we noticed that `daysInBetween` calculated as 0 when we selected the following day (and this would cause infinity to be the return value of the goal plan if the next day was chosen). 
+**Note**: for the MUI `DateInput` component, we noticed that `daysInBetween` calculated as 0 when we selected the following day- for example if we were in the late pm hours (and this would cause infinity to be the return value of the goal plan if the next day was chosen)...And note that after I published this readme, I did go back and add a `+ 1` to this return so that it more accurately handles the date difference. 
 
 The `if` statement above handles that edge case. The next day would mean we’re 1 day away, and with 1 day away- we can only select a frequency of 1, so value divided by 1 day divided by 1 per week or value / 1 / 1= value.
 
