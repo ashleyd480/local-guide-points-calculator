@@ -74,18 +74,16 @@ This works by seeing the days from today to the user's selected date. Then, from
 For example, if we have 14 days left (2 weeks) and we have to contribute 3 times a week, we have to contribute 6 times in total- so 6 would be our "effective frequency".
 
 ```
-for (let [key, value] of numberPerContributionMap) {
-    let newValuePerDateFrequency = 0;
-    if (daysInBetween === 0) {
-        newValuePerDateFrequency = value;
+let effectiveFrequency = (frequency / 7) * daysInBetween;
+if (daysInBetween === 0) {
+      // handle edge case of 0 days in between; Date Picker renders day difference as 0 otherwise which leads to infinity return
+      newValuePerDateFrequency = value;
+    } else if (daysInBetween <= frequency ) {
+      newValuePerDateFrequency = Math.round(value / frequency);
+    } else {
+      newValuePerDateFrequency = Math.round(value / effectiveFrequency);
     }
-    else if (daysInBetween <= frequency) { // handle edge case of one week or less
-        newValuePerDateFrequency = Math.round(totalContributionsNeeded / daysInBetween);
-    }
-    else {
-        let effectiveFrequency = (frequency / 7) * daysInBetween;
-        newValuePerDateFrequency = Math.round(value / effectiveFrequency);
-    }
+
 ```
 
 

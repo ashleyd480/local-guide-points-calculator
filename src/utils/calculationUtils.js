@@ -13,7 +13,7 @@ export const calculateDaysInBeteen = (goalDate) => {
 
     // get difference in days
     const differenceInDays = selectedDate.diff(today, 'day');
-    return differenceInDays;
+    return differenceInDays + 1;
 }
 
 export const calculateFilteredPercentages = (categoriesCheckedData) => {

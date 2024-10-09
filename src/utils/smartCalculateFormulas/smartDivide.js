@@ -18,6 +18,7 @@ export const calculateNumberPerContribution = (difference, percentages) => {
   return numberContributionsMap; // *in order to pass the values back!
 };
 
+
 // takes the populated map and calculates number of contributions per day per frequncy
 export const calculateNumberPerDay = (
   difference,
@@ -33,19 +34,18 @@ export const calculateNumberPerDay = (
   );
 
   for (let [key, value] of numberPerContributionMap) {
-    let newValuePerDateFrequency = 0;
-    if (daysInBetween === 0) {
-      // handle edge case of 0 days in between; Date Picker renders day difference as 0 otherwise which leads to infinity return
-      newValuePerDateFrequency = value;
-    } else if (daysInBetween <= frequency) {
-      newValuePerDateFrequency = Math.round(value / daysInBetween);
-    } else {
+      let newValuePerDateFrequency = 0;
       // calculate the effective contribution days based on frequency per week
       // days in between divided by 7 means how many week(s) we have to contribution and then frequency is how many times we have to contribute per week- so we get total # of times we have to contribute
       // then we can divide the number of contributions by the number of times we have to contribute to get the number of contributions per day
+let effectiveFrequency = (frequency / 7) * daysInBetween;
 
-      let effectiveFrequency = (frequency / 7) * daysInBetween;
-
+    if (daysInBetween === 0) {
+      // handle edge case of 0 days in between; Date Picker renders day difference as 0 otherwise which leads to infinity return
+      newValuePerDateFrequency = value;
+    } else if (daysInBetween <= frequency || daysInBetween <= 7 ) {
+      newValuePerDateFrequency = Math.round(value / frequency);
+    } else {
       newValuePerDateFrequency = Math.round(value / effectiveFrequency);
     }
 
