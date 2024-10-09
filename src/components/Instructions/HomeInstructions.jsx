@@ -13,6 +13,7 @@ const HomeInstructions = () => {
           {" "} on a new tab.
         </p>
         <p>When entering numbers, note that commas are not allowed and also you must enter valid numbers only. 😊 </p>
+        <p> Note, for reviews, we are assuming 200 character reviews at 20 points each for simplicity. </p>
         <ol>
           <li>Make sure to enter your total number of points. That is a required field.</li>
           <li>Next, enter the number of contributions that you have for each category. If you don't have any contributions for that category, then you can leave it blank.</li>
