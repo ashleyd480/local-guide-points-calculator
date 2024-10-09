@@ -36,8 +36,14 @@ export const calculateNumberPerDay = (difference, percentages, daysInBetween, fr
             // then we can divide the number of contributions by the number of times we have to contribute to get the number of contributions per day
 
             let effectiveFrequency = (frequency / 7) * daysInBetween;
-            newValuePerDateFrequency = Math.round(value / effectiveFrequency);
-            // newValuePerDateFrequency = Math.round(value / daysInBetween / frequency);
+            // Check for edge cases where effectiveFrequency is less than 1 (like we have less than a week left)
+            if (effectiveFrequency < 1) {
+                // If effectiveFrequency is less than 1, limit contributions to total needed contributions divided by days left
+                newValuePerDateFrequency = Math.round(value / daysInBetween);
+            } else {
+                // Calculate contributions needed per day based on effective frequency
+                newValuePerDateFrequency = Math.round(value / effectiveFrequency);
+            }
         } // Round to nearest integer
 
         console.log("days in between is " + daysInBetween);
