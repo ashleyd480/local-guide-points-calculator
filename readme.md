@@ -66,10 +66,27 @@ The app can perform two types of calculations to help users devise a plan to rea
 - **Percentages**: I’m calculating % by total contributions vs points to be more equitably accurate (as points can incorrectly skew distributions- say if a category earns more points).
 
 - **Effective Frequency**: I had to tweak the `calculateNumberPerDay`, by using "effective frequency" to more accurately derive a plan. 
+
 `let effectiveFrequency = (frequency / 7) * daysInBetween;`
+
 This works by seeing the days from today to the user's selected date. Then, from there, it is divided by 7 to get the number of weeks left. Next, it is multiplied by the frequency to get the effective frequency- or the actual number of days the user will be contributing.
 
 For example, if we have 14 days left (2 weeks) and we have to contribute 3 times a week, we have to contribute 6 times in total- so 6 would be our "effective frequency".
+
+```
+for (let [key, value] of numberPerContributionMap) {
+    let newValuePerDateFrequency = 0;
+    if (daysInBetween === 0) {
+        newValuePerDateFrequency = value;
+    }
+    else if (daysInBetween <= frequency) { // handle edge case of one week or less
+        newValuePerDateFrequency = Math.round(totalContributionsNeeded / daysInBetween);
+    }
+    else {
+        let effectiveFrequency = (frequency / 7) * daysInBetween;
+        newValuePerDateFrequency = Math.round(value / effectiveFrequency);
+    }
+```
 
 
 
