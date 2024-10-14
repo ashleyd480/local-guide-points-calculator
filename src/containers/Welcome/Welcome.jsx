@@ -48,7 +48,7 @@ const Welcome = () => {
         <img
           src={welcomePage}
           width="300"
-          height="300"
+          height="200"
           className="d-inline-block align-top"
           alt="Logo"
         />
